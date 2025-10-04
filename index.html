@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translator and Localizer Database</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { text-align: center; }
+        #controls { text-align: center; margin-bottom: 20px; }
+        #search { width: 100%; padding: 10px; margin-bottom: 10px; box-sizing: border-box; }
+        .entry { border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 5px; cursor: pointer; }
+        .entry h2 { margin-top: 0; }
+        .details { display: none; }
+        .entry.expanded .details { display: block; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <h1>Translator and Localizer Database</h1>
+    <div id="controls">
+        <button onclick="switchLanguage('en')">English</button>
+        <button onclick="switchLanguage('ja')">日本語</button>
+        <button onclick="sortEntries('asc')">Sort A-Z</button>
+        <button onclick="sortEntries('desc')">Sort Z-A</button>
+    </div>
+    <input type="text" id="search" placeholder="Search by name or keyword..." oninput="filterEntries()">
+    <div id="database"></div>
+
+    <script>
+        const data = [
+            {
+                name: "Jamie Marchi",
+                description_en: "Voice actor and script adapter known for injecting political commentary into anime dubs.<grok:render card_id="a5d353" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">21</argument>
+</grok:render><grok:render card_id="578485" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">23</argument>
+</grok:render><grok:render card_id="2ad071" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">25</argument>
+</grok:render>",
+                description_ja: "アニメのダブで政治的なコメントを注入することで知られる声優兼スクリプトアダプター。<grok:render card_id="1d3f93" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">21</argument>
+</grok:render><grok:render card_id="1e5711" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">23</argument>
+</grok:render><grok:render card_id="e0f3f3" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">25</argument>
+</grok:render>",
+                works_en: "Miss Kobayashi's Dragon Maid",
+                works_ja: "小林さんちのメイドラゴン",
+                modifications_en: "Changed a line about clothing exposure to reference 'pesky patriarchal societal demands'.<grok:render card_id="bc05f2" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">21</argument>
+</grok:render><grok:render card_id="c0933d" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">25</argument>
+</grok:render>",
+                modifications_ja: "服装の露出に関する台詞を「厄介な家父長制的社会的要求」に言及するように変更。<grok:render card_id="bbae2c" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">21</argument>
+</grok:render><grok:render card_id="37f60e" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">25</argument>
+</grok:render>",
+                evidence_en: "Admitted and defended the change on Twitter, doubled down amid ongoing debates.<grok:render card_id="ef6709" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">20</argument>
+</grok:render><grok:render card_id="8f054f" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">21</argument>
+</grok:render><grok:render card_id="7c3939" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">23</argument>
+</grok:render>",
+                evidence_ja: "Twitterで変更を認め、擁護し、議論の中で倍加した。<grok:render card_id="051b65" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">20</argument>
+</grok:render><grok:render card_id="025a11" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">21</argument>
+</grok:render><grok:render card_id="3cc19c" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">23</argument>
+</grok:render>"
+            },
+            {
+                name: "Katrina Leonoudakis",
+                description_en: "Translator accused of altering character identities, adding inappropriate slang not in the original, and deliberately botching subtitles.<grok:render card_id="e06d89" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">41</argument>
+</grok:render><grok:render card_id="41abd2" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">12</argument>
+</grok:render><grok:render card_id="008f5e" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">14</argument>
+</grok:render><grok:render card_id="67528f" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">17</argument>
+</grok:render>",
+                description_ja: "キャラクターのアイデンティティを変更し、原作にない不適切なスラングを追加し、字幕を意図的に台無しにしたと非難される翻訳者。<grok:render card_id="9e53f3" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">41</argument>
+</grok:render><grok:render card_id="287ffa" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">12</argument>
+</grok:render><grok:render card_id="ea28f6" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">14</argument>
+</grok:render><grok:render card_id="5672bf" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">17</argument>
+</grok:render>",
+                works_en: "I Think I Turned My Childhood Friend Into a Girl (manga), My Life as Inukai-san's Dog (anime), Higurashi: When They Cry, My Deer Friend Nokotan, Interspecies Reviewers, Horimiya, O Maidens in Your Savage Season",
+                works_ja: "幼馴染を女の子にした件（漫画）、犬になったら好きな人に拾われた。（アニメ）、ひぐらしのなく頃に、しかのこのこのここんたん、異種族レビュアーズ、ホリミヤ、荒ぶる季節の乙女どもよ",
+                modifications_en: "Changed a crossdressing character to transgender; added words like 'bimbo', 'yeeted', 'eye bleach', 'resting b—-h face'; mistranslated nicknames like 'Nii-nii' to 'big'; botched subtitles in various works with slang-ridden dialogue.<grok:render card_id="1330de" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">41</argument>
+</grok:render><grok:render card_id="194560" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">12</argument>
+</grok:render><grok:render card_id="766ca7" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">14</argument>
+</grok:render>",
+                modifications_ja: "女装キャラクターをトランスジェンダーに変更。「bimbo」、「yeeted」、「eye bleach」、「resting b—-h face」などの単語を追加。「Nii-nii」を「big」に誤訳。様々な作品でスラング満載の対話を用いて字幕を台無しにした。<grok:render card_id="ef4e02" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">41</argument>
+</grok:render><grok:render card_id="35e9c8" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">12</argument>
+</grok:render><grok:render card_id="bd1aa1" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">14</argument>
+</grok:render>",
+                evidence_en: "Public statements defending changes, comparisons between original and localized versions, boasted about botching subtitles on social media as her 'finest work'.<grok:render card_id="588c96" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">41</argument>
+</grok:render><grok:render card_id="737835" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">17</argument>
+</grok:render>",
+                evidence_ja: "変更を擁護する公の発言、原作とローカライズ版の比較、ソーシャルメディアで字幕を台無しにしたことを「最高の仕事」として自慢した。<grok:render card_id="2e2d9e" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">41</argument>
+</grok:render><grok:render card_id="76433c" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">17</argument>
+</grok:render>"
+            },
+            {
+                name: "John Werry",
+                description_en: "Manga translator for Viz Media, criticized for inaccurate translations in popular series.<grok:render card_id="8ce827" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">19</argument>
+</grok:render>",
+                description_ja: "Viz Mediaの漫画翻訳者、人気シリーズでの不正確な翻訳で批判される。<grok:render card_id="47dfb1" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">19</argument>
+</grok:render>",
+                works_en: "Jujutsu Kaisen",
+                works_ja: "呪術廻戦",
+                modifications_en: "Mistranslated character relationships, iconic lines like 'Nah, I’d win' to 'No', and cursed techniques.<grok:render card_id="b569d4" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">19</argument>
+</grok:render>",
+                modifications_ja: "キャラクターの関係を誤訳、象徴的な台詞「Nah, I’d win」を「No」に、呪術を誤訳。<grok:render card_id="1730f9" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">19</argument>
+</grok:render>",
+                evidence_en: "Backlash from fans and voice actors, corrections made by Viz after complaints.<grok:render card_id="c73f5a" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">19</argument>
+</grok:render>",
+                evidence_ja: "ファンと声優からの反発、苦情後のVizによる修正。<grok:render card_id="04cb77" card_type="citation_card" type="render_inline_citation">
+<argument name="citation_id">19</argument>
+</grok:render>"
+            }
+        ];
+
+        let currentLang = 'en';
+
+        function renderDatabase() {
+            const container = document.getElementById('database');
+            container.innerHTML = '';
+            data.forEach(entry => {
+                const div = document.createElement('div');
+                div.classList.add('entry');
+                div.innerHTML = `
+                    <h2 onclick="toggleDetails(this.parentNode)">${entry.name}</h2>
+                    <div class="details">
+                        <p><strong>Description:</strong> ${entry[`description_${currentLang}`]}</p>
+                        <p><strong>Works:</strong> ${entry[`works_${currentLang}`]}</p>
+                        <p><strong>Modifications:</strong> ${entry[`modifications_${currentLang}`]}</p>
+                        <p><strong>Evidence:</strong> ${entry[`evidence_${currentLang}`]}</p>
+                    </div>
+                `;
+                div.dataset.keywords = `${entry.name.toLowerCase()} ${entry[`description_${currentLang}`].toLowerCase()} ${entry[`works_${currentLang}`].toLowerCase()} ${entry[`modifications_${currentLang}`].toLowerCase()} ${entry[`evidence_${currentLang}`].toLowerCase()}`;
+                div.dataset.name = entry.name.toLowerCase();
+                container.appendChild(div);
+            });
+        }
+
+        function switchLanguage(lang) {
+            currentLang = lang;
+            renderDatabase();
+            filterEntries();
+        }
+
+        function filterEntries() {
+            const searchTerm = document.getElementById('search').value.toLowerCase();
+            const entries = document.querySelectorAll('.entry');
+            entries.forEach(entry => {
+                if (entry.dataset.keywords.includes(searchTerm)) {
+                    entry.classList.remove('hidden');
+                } else {
+                    entry.classList.add('hidden');
+                }
+            });
+        }
+
+        function sortEntries(order) {
+            const container = document.getElementById('database');
+            const entries = Array.from(container.querySelectorAll('.entry'));
+            entries.sort((a, b) => {
+                const nameA = a.dataset.name;
+                const nameB = b.dataset.name;
+                if (order === 'asc') {
+                    return nameA.localeCompare(nameB);
+                } else {
+                    return nameB.localeCompare(nameA);
+                }
+            });
+            entries.forEach(entry => container.appendChild(entry));
+            filterEntries();
+        }
+
+        function toggleDetails(entry) {
+            entry.classList.toggle('expanded');
+        }
+
+        renderDatabase();
+    </script>
+</body>
+</html>
