@@ -106,28 +106,28 @@
             }
         };
 
-        // Sample data (replace with your actual data from Excel converted to JSON)
+        // Sample data with bilingual support (replace with your actual data from Excel converted to JSON)
         // To integrate real Excel data: Use a tool like SheetJS (xlsx.js) if you want to load .xlsx directly,
         // but since we're sticking to vanilla JS, convert your Excel to JSON first and paste here.
-        // Example structure: Each object represents a row.
+        // Example structure: Each object represents a row with lang-specific fields.
         const data = [
             {
                 name: 'John Doe',
-                industry: 'Anime',
-                mods: 'Altered dialogue to insert personal political views, changing character motivations.',
-                evidence: '<a href="https://example.com/evidence1" target="_blank">Screenshot and comparison</a>'
+                industry: { en: 'Anime', ja: 'アニメ' },
+                mods: { en: 'Altered dialogue to insert personal political views, changing character motivations.', ja: '対話を変更して個人的な政治的見解を挿入し、キャラクターの動機を変えました。' },
+                evidence: { en: '<a href="https://example.com/evidence1" target="_blank">Screenshot and comparison</a>', ja: '<a href="https://example.com/evidence1" target="_blank">スクリーンショットと比較</a>' }
             },
             {
                 name: 'Jane Smith',
-                industry: 'Manga',
-                mods: 'Removed cultural references and replaced with Western equivalents without context.',
-                evidence: '<a href="https://example.com/evidence2" target="_blank">Original vs. localized scans</a>'
+                industry: { en: 'Manga', ja: 'マンガ' },
+                mods: { en: 'Removed cultural references and replaced with Western equivalents without context.', ja: '文化的参照を削除し、文脈なしで西洋の同等物に置き換えました。' },
+                evidence: { en: '<a href="https://example.com/evidence2" target="_blank">Original vs. localized scans</a>', ja: '<a href="https://example.com/evidence2" target="_blank">オリジナル対ローカライズされたスキャン</a>' }
             },
             {
                 name: 'Alex Johnson',
-                industry: 'Visual Novel',
-                mods: 'Added ideological commentary not present in the source, altering story tone.',
-                evidence: '<a href="https://example.com/evidence3" target="_blank">Forum discussion with diffs</a>'
+                industry: { en: 'Visual Novel', ja: 'ビジュアルノベル' },
+                mods: { en: 'Added ideological commentary not present in the source, altering story tone.', ja: 'ソースに存在しないイデオロギー的な解説を追加し、物語のトーンを変えました。' },
+                evidence: { en: '<a href="https://example.com/evidence3" target="_blank">Forum discussion with diffs</a>', ja: '<a href="https://example.com/evidence3" target="_blank">差分付きのフォーラム議論</a>' }
             },
             // Add more entries from your Excel file here
         ];
@@ -152,7 +152,7 @@
             currentLang = lang;
         }
 
-        // Populate table with data
+        // Populate table with data based on current language
         function populateTable() {
             let tbody = document.querySelector('tbody');
             tbody.innerHTML = ''; // Clear existing rows
@@ -160,9 +160,9 @@
                 let row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${item.name}</td>
-                    <td>${item.industry}</td>
-                    <td>${item.mods}</td>
-                    <td>${item.evidence}</td>
+                    <td>${item.industry[currentLang]}</td>
+                    <td>${item.mods[currentLang]}</td>
+                    <td>${item.evidence[currentLang]}</td>
                 `;
                 tbody.appendChild(row);
             });
@@ -186,6 +186,10 @@
         document.querySelector('#lang-switch').addEventListener('click', () => {
             const newLang = currentLang === 'ja' ? 'en' : 'ja';
             setLanguage(newLang);
+            populateTable();
+            // Optionally clear search input or re-trigger search if needed
+            document.querySelector('#search-input').value = '';
+            document.querySelectorAll('tbody tr').forEach(tr => tr.classList.remove('hidden'));
         });
 
         // Initialize
