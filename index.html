@@ -7,13 +7,9 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0; /* Remove default body margin */
+            margin: 20px auto;
+            max-width: 1200px;
             line-height: 1.6;
-        }
-        .container {
-            max-width: 1200px; /* Set a max width for content */
-            margin: 0 auto; /* Center the content horizontally */
-            padding: 20px; /* Add padding for inner spacing */
         }
         header {
             text-align: center;
@@ -59,35 +55,33 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>翻訳者・ローカライザー データベース</h1>
-            <button id="lang-switch">English</button>
-        </header>
+    <header>
+        <h1>翻訳者・ローカライザー データベース</h1>
+        <button id="lang-switch">English</button>
+    </header>
 
-        <section id="about">
-            <h2>このサイトについて</h2>
-            <p>このサイトは、アニメ、マンガ、ビジュアルノベル、またはゲーム業界でソースコンテンツに論争的な修正を加える翻訳者とローカライザーをリストアップした検索可能なデータベースです。証拠を含みます。このサイトの目的は、翻訳者とローカライザーのずさんな慣行を文書化し、企業がそうした慣行を行う個人を避けられるようにすることです。ローカライゼーションの不正行為の問題には、文化的ニュアンスの無視、原作の意図からの逸脱、政治的またはイデオロギー的な挿入などが含まれ、これによりファンが不満を抱くことがあります。このデータベースは、そうした事例の証拠を収集し、業界の透明性を高めることを目指しています。</p>
-        </section>
+    <section id="about">
+        <h2>このサイトについて</h2>
+        <p>このサイトは、アニメ、マンガ、ビジュアルノベル、またはゲーム業界でソースコンテンツに論争的な修正を加える翻訳者とローカライザーをリストアップした検索可能なデータベースです。証拠を含みます。このサイトの目的は、翻訳者とローカライザーのずさんな慣行を文書化し、企業がそうした慣行を行う個人を避けられるようにすることです。ローカライゼーションの不正行為の問題には、文化的ニュアンスの無視、原作の意図からの逸脱、政治的またはイデオロギー的な挿入などが含まれ、これによりファンが不満を抱くことがあります。このデータベースは、そうした事例の証拠を収集し、業界の透明性を高めることを目指しています。</p>
+    </section>
 
-        <section id="search">
-            <input type="text" id="search-input" placeholder="検索...">
-        </section>
+    <section id="search">
+        <input type="text" id="search-input" placeholder="検索...">
+    </section>
 
-        <table id="database">
-            <thead>
-                <tr>
-                    <th>名前</th>
-                    <th>業界</th>
-                    <th>論争的な修正</th>
-                    <th>証拠</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Data rows will be populated by JavaScript -->
-            </tbody>
-        </table>
-    </div>
+    <table id="database">
+        <thead>
+            <tr>
+                <th>名前</th>
+                <th>業界</th>
+                <th>論争的な修正</th>
+                <th>証拠</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data rows will be populated by JavaScript -->
+        </tbody>
+    </table>
 
     <script>
         const languages = {
@@ -113,93 +107,29 @@
             }
         };
 
-        // Sample data with bilingual support
+        // Sample data with bilingual support (replace with your actual data from Excel converted to JSON)
+        // To integrate real Excel data: Use a tool like SheetJS (xlsx.js) if you want to load .xlsx directly,
+        // but since we're sticking to vanilla JS, convert your Excel to JSON first and paste here.
+        // Example structure: Each object represents a row with lang-specific fields.
         const data = [
-            
-    {
-        "name": "Jamie Marchi",
-        "industry": { "en": "Anime (dubbing)", "ja": "アニメ（吹き替え）" },
-        "mods": {
-            "en": "Inserted politically charged lines, e.g., in 'Miss Kobayashi’s Dragon Maid,' adding 'pesky patriarchal societal demands' to a scene about a revealing outfit, altering the tone to ideological.",
-            "ja": "「小林さんちのメイドラゴン」で政治的な台詞を挿入、例：露出度の高い服装のシーンに「厄介な家父長制的社会的要求」を追加し、トーンをイデオロギー的に変更。"
-        },
-        "evidence": {
-            "en": "<a href=\"https://example.com/citation38\" target=\"_blank\">Marchi’s convention defense and social media statement ('I have a vagina. Deal with it.') sparked backlash for injecting personal politics.</a>",
-            "ja": "<a href=\"https://example.com/citation38\" target=\"_blank\">2018年コンベンションでの擁護とソーシャルメディアでの発言（「私は膣を持っている。それを受け入れろ」）が、個人的な政治の注入として反発を招いた。</a>"
-        }
-    },
-    {
-        "name": "Katrina Leonoudakis",
-        "industry": { "en": "Anime, manga, visual novels, games", "ja": "アニメ、マンガ、ビジュアルノベル、ゲーム" },
-        "mods": {
-            "en": "Unnatural translations like 'Nii-Nii' to 'Big Brudder' in 'Higurashi When They Cry: Gou'; westernizing dialogues in '2.5 Dimensional Seduction' to fit modern sensibilities.",
-            "ja": "「ひぐらしのなく頃に業」で「にいにい」を「Big Brudder」と不自然に翻訳、「2.5次元の誘惑」で現代的感性に合わせたウェスタナイズされた対話変更。"
-        },
-        "evidence": {
-            "en": "<a href=\"https://example.com/citation38\" target=\"_blank\">Reddit fan complaints led to subtitle removal</a>, <a href=\"https://example.com/citation14\" target=\"_blank\">Leonoudakis bragged about adaptation-focused approach</a>, <a href=\"https://example.com/citation49\" target=\"_blank\">Criticized for attacking fans and botching projects at Sentai Filmworks</a>",
-            "ja": "<a href=\"https://example.com/citation38\" target=\"_blank\">Redditでのファン苦情で字幕削除</a>, <a href=\"https://example.com/citation14\" target=\"_blank\">Leonoudakisは適応重視を自慢</a>, <a href=\"https://example.com/citation49\" target=\"_blank\">Sentai Filmworksでファン攻撃やプロジェクト失敗で非難</a>"
-        }
-    },
-    {
-        "name": "Jeremy Blaustein",
-        "industry": { "en": "Games (video games)", "ja": "ゲーム（ビデオゲーム）" },
-        "mods": {
-            "en": "Claims of being the 'secret recipe' for 'Metal Gear Solid' success; asserted Hideo Kojima named 'Zone of the Enders' after his child, altering perceptions of original intent.",
-            "ja": "「メタルギアソリッド」の成功の「秘密のレシピ」と主張、小島秀夫が「ゾーン・オブ・ジ・エンダーズ」を自分の子供にちなんで名付けたと根拠なく主張、原作の意図の認識を変更。"
-        },
-        "evidence": {
-            "en": "<a href=\"https://example.com/citation10\" target=\"_blank\">Interviews and social media claims led to debates in gaming communities about translators taking undue credit.</a>",
-            "ja": "<a href=\"https://example.com/citation10\" target=\"_blank\">インタビューやソーシャルメディアでの主張が、翻訳者が不当な功績を主張する議論をゲーミングコミュニティで引き起こした。</a>"
-        }
-    },
-    {
-        "name": "Agnes Kaku",
-        "industry": { "en": "Games (video games)", "ja": "ゲーム（ビデオゲーム）" },
-        "mods": {
-            "en": "Injected personal biases into 'Metal Gear Solid 2' localization, influenced by public disdain for Hideo Kojima, deviating from original tone/intent.",
-            "ja": "「メタルギアソリッド2」で個人的偏見を注入、小島秀夫への公の軽蔑が元のトーン/意図から逸脱した翻訳に影響。"
-        },
-        "evidence": {
-            "en": "<a href=\"https://example.com/citation10\" target=\"_blank\">Publicly expressed hatred for Kojima in interviews/online, linked to inconsistencies in English vs. Japanese script.</a>",
-            "ja": "<a href=\"https://example.com/citation10\" target=\"_blank\">インタビューやオンラインで小島への憎しみを公言、英語版と日本語脚本の不整合に関連づけられ、偏ったローカライズの例として頻出。</a>"
-        }
-    },
-    {
-        "name": "Zack Davisson",
-        "industry": { "en": "Manga, anime, games", "ja": "マンガ、アニメ、ゲーム" },
-        "mods": {
-            "en": "'Woke' alterations in 'Shigeru Mizuki’s works' and 'Ultimate X-Men,' adapting content to Western progressive views, potentially diluting cultural elements.",
-            "ja": "「水木しげるの作品」や「アルティメットX-メン」で「woke」な変更、西洋の進歩的視点に合わせ、文化的要素を薄めたり意図せぬサブテキストを追加。"
-        },
-        "evidence": {
-            "en": "<a href=\"https://example.com/citation65\" target=\"_blank\">Criticized in forums for Seattle-based 'left-leaning' approach</a>, <a href=\"https://example.com/citation26\" target=\"_blank\">Award-winning but debated adaptations cited in anti-censorship discussions</a>",
-            "ja": "<a href=\"https://example.com/citation65\" target=\"_blank\">シアトル在住の「左寄り」翻訳者とされ、オンライン论坛で批判</a>, <a href=\"https://example.com/citation26\" target=\"_blank\">賞を受賞した適応が忠実さからの逸脱として反検閲議論で引用</a>"
-        }
-    },
-    {
-        "name": "Kris Knigge",
-        "industry": { "en": "Games, anime (localization, voice direction)", "ja": "ゲーム、アニメ（ローカライズ、ボイスディレクション）" },
-        "mods": {
-            "en": "Westernized dialogues in 'Trails of Cold Steel' and 'Yo-kai Watch,' softening cultural references or altering humor, accused of cultural erasure.",
-            "ja": "「英雄伝説 閃の軌跡」や「妖怪ウォッチ」で対話やキャラ描写をウェスタナイズ、文化参照の軟化やアメリカ向けユーモア変更で文化的抹消と非難。"
-        },
-        "evidence": {
-            "en": "<a href=\"https://example.com/citation44\" target=\"_blank\">Scrutinized for deviations in large scripts (e.g., 'Trails of Cold Steel III')</a>, <a href=\"https://example.com/citation26\" target=\"_blank\">Listed in community backlash as a 'woke localizer'</a>",
-            "ja": "<a href=\"https://example.com/citation44\" target=\"_blank\">「閃の軌跡III」などの大規模スクリプトの逸脱が精査</a>, <a href=\"https://example.com/citation26\" target=\"_blank\">「wokeローカライザー」としてコミュニティバックラッシュにリスト</a>"
-        }
-    },
-    {
-        "name": "Sarah Moon",
-        "industry": { "en": "Anime, manga", "ja": "アニメ、マンガ" },
-        "mods": {
-            "en": "Supported westernized changes in '2.5 Dimensional Seduction' (e.g., 'sister' adaptations), endorsed localizations injecting modern biases.",
-            "ja": "「2.5次元の誘惑」で「姉」などの用語をウェスタナイズ、現代的偏見を注入するローカライズを支持。"
-        },
-        "evidence": {
-            "en": "<a href=\"https://example.com/citation54\" target=\"_blank\">Defended practices in essays, affirmed controversial peer work on social media</a>, <a href=\"https://example.com/citation26\" target=\"_blank\">Caused fan outrage over agenda-driven translations in 'My Dress-Up Darling'</a>",
-            "ja": "<a href=\"https://example.com/citation54\" target=\"_blank\">エッセイで慣行を擁護、同僚の論争的仕事をソーシャルメディアで肯定</a>, <a href=\"https://example.com/citation26\" target=\"_blank\">「その着せ替え人形は恋をする」で議題駆動翻訳によるファン怒りを引き起こした</a>"
-        }
-    },
+            {
+                name: 'John Doe',
+                industry: { en: 'Anime', ja: 'アニメ' },
+                mods: { en: 'Altered dialogue to insert personal political views, changing character motivations.', ja: '対話を変更して個人的な政治的見解を挿入し、キャラクターの動機を変えました。' },
+                evidence: { en: '<a href="https://example.com/evidence1" target="_blank">Screenshot and comparison</a>', ja: '<a href="https://example.com/evidence1" target="_blank">スクリーンショットと比較</a>' }
+            },
+            {
+                name: 'Jane Smith',
+                industry: { en: 'Manga', ja: 'マンガ' },
+                mods: { en: 'Removed cultural references and replaced with Western equivalents without context.', ja: '文化的参照を削除し、文脈なしで西洋の同等物に置き換えました。' },
+                evidence: { en: '<a href="https://example.com/evidence2" target="_blank">Original vs. localized scans</a>', ja: '<a href="https://example.com/evidence2" target="_blank">オリジナル対ローカライズされたスキャン</a>' }
+            },
+            {
+                name: 'Alex Johnson',
+                industry: { en: 'Visual Novel', ja: 'ビジュアルノベル' },
+                mods: { en: 'Added ideological commentary not present in the source, altering story tone.', ja: 'ソースに存在しないイデオロギー的な解説を追加し、物語のトーンを変えました。' },
+                evidence: { en: '<a href="https://example.com/evidence3" target="_blank">Forum discussion with diffs</a>', ja: '<a href="https://example.com/evidence3" target="_blank">差分付きのフォーラム議論</a>' }
+            },
             // Add more entries from your Excel file here
         ];
 
@@ -258,6 +188,7 @@
             const newLang = currentLang === 'ja' ? 'en' : 'ja';
             setLanguage(newLang);
             populateTable();
+            // Optionally clear search input or re-trigger search if needed
             document.querySelector('#search-input').value = '';
             document.querySelectorAll('tbody tr').forEach(tr => tr.classList.remove('hidden'));
         });
