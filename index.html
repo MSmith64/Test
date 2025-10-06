@@ -7,8 +7,13 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0; /* Remove default body margin */
             line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px; /* Set a max width for content */
+            margin: 0 auto; /* Center the content horizontally */
+            padding: 20px; /* Add padding for inner spacing */
         }
         header {
             text-align: center;
@@ -54,33 +59,35 @@
     </style>
 </head>
 <body>
-    <header>
-        <h1>翻訳者・ローカライザー データベース</h1>
-        <button id="lang-switch">English</button>
-    </header>
+    <div class="container">
+        <header>
+            <h1>翻訳者・ローカライザー データベース</h1>
+            <button id="lang-switch">English</button>
+        </header>
 
-    <section id="about">
-        <h2>このサイトについて</h2>
-        <p>このサイトは、アニメ、マンガ、ビジュアルノベル、またはゲーム業界でソースコンテンツに論争的な修正を加える翻訳者とローカライザーをリストアップした検索可能なデータベースです。証拠を含みます。このサイトの目的は、翻訳者とローカライザーのずさんな慣行を文書化し、企業がそうした慣行を行う個人を避けられるようにすることです。ローカライゼーションの不正行為の問題には、文化的ニュアンスの無視、原作の意図からの逸脱、政治的またはイデオロギー的な挿入などが含まれ、これによりファンが不満を抱くことがあります。このデータベースは、そうした事例の証拠を収集し、業界の透明性を高めることを目指しています。</p>
-    </section>
+        <section id="about">
+            <h2>このサイトについて</h2>
+            <p>このサイトは、アニメ、マンガ、ビジュアルノベル、またはゲーム業界でソースコンテンツに論争的な修正を加える翻訳者とローカライザーをリストアップした検索可能なデータベースです。証拠を含みます。このサイトの目的は、翻訳者とローカライザーのずさんな慣行を文書化し、企業がそうした慣行を行う個人を避けられるようにすることです。ローカライゼーションの不正行為の問題には、文化的ニュアンスの無視、原作の意図からの逸脱、政治的またはイデオロギー的な挿入などが含まれ、これによりファンが不満を抱くことがあります。このデータベースは、そうした事例の証拠を収集し、業界の透明性を高めることを目指しています。</p>
+        </section>
 
-    <section id="search">
-        <input type="text" id="search-input" placeholder="検索...">
-    </section>
+        <section id="search">
+            <input type="text" id="search-input" placeholder="検索...">
+        </section>
 
-    <table id="database">
-        <thead>
-            <tr>
-                <th>名前</th>
-                <th>業界</th>
-                <th>論争的な修正</th>
-                <th>証拠</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Data rows will be populated by JavaScript -->
-        </tbody>
-    </table>
+        <table id="database">
+            <thead>
+                <tr>
+                    <th>名前</th>
+                    <th>業界</th>
+                    <th>論争的な修正</th>
+                    <th>証拠</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data rows will be populated by JavaScript -->
+            </tbody>
+        </table>
+    </div>
 
     <script>
         const languages = {
@@ -106,10 +113,7 @@
             }
         };
 
-        // Sample data with bilingual support (replace with your actual data from Excel converted to JSON)
-        // To integrate real Excel data: Use a tool like SheetJS (xlsx.js) if you want to load .xlsx directly,
-        // but since we're sticking to vanilla JS, convert your Excel to JSON first and paste here.
-        // Example structure: Each object represents a row with lang-specific fields.
+        // Sample data with bilingual support
         const data = [
             
     {
@@ -254,7 +258,6 @@
             const newLang = currentLang === 'ja' ? 'en' : 'ja';
             setLanguage(newLang);
             populateTable();
-            // Optionally clear search input or re-trigger search if needed
             document.querySelector('#search-input').value = '';
             document.querySelectorAll('tbody tr').forEach(tr => tr.classList.remove('hidden'));
         });
