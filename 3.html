@@ -2,19 +2,110 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ローカライズ責任データベース</title>
     <style>
-        body { font-family: sans-serif; }
+        body { 
+            font-family: sans-serif; 
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
         .en { display: none; }
         .english .en { display: inline; }
         .english .jp { display: none; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        #search { width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box; }
-        nav { background-color: #eee; padding: 10px; }
-        nav a { margin-right: 20px; text-decoration: none; color: black; }
-        button { padding: 8px 16px; margin-bottom: 10px; }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #lang-toggle {
+            display: block;
+            margin: 0 auto 20px;
+            padding: 8px 16px;
+        }
+        nav {
+            background-color: #eee;
+            padding: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        nav a {
+            margin: 5px 10px;
+            text-decoration: none;
+            color: black;
+        }
+        p {
+            max-width: 800px;
+            margin: 0 auto 20px;
+            text-align: justify;
+        }
+        #search { 
+            width: 100%; 
+            max-width: 800px;
+            padding: 8px; 
+            margin: 0 auto 20px; 
+            display: block;
+            box-sizing: border-box; 
+        }
+        .table-container {
+            overflow-x: auto;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+        table { 
+            width: 100%; 
+            max-width: 800px;
+            margin: 0 auto;
+            border-collapse: collapse; 
+        }
+        th, td { 
+            border: 1px solid #ddd; 
+            padding: 8px; 
+            text-align: left; 
+        }
+        th { 
+            background-color: #f2f2f2; 
+        }
+
+        @media screen and (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            nav {
+                flex-direction: column;
+                align-items: center;
+            }
+            nav a {
+                margin: 5px 0;
+            }
+            table thead {
+                display: none;
+            }
+            table, table tbody, table tr, table td {
+                display: block;
+                width: 100%;
+            }
+            table tr {
+                margin-bottom: 15px;
+                border: 1px solid #ddd;
+            }
+            table td {
+                text-align: right;
+                padding-left: 50%;
+                position: relative;
+            }
+            table td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 0;
+                width: 50%;
+                padding-left: 15px;
+                font-weight: bold;
+                text-align: left;
+            }
+        }
     </style>
 </head>
 <body>
@@ -48,31 +139,33 @@
 
     <input type="text" id="search" placeholder="検索...">
 
-    <table>
-        <thead>
-            <tr>
-                <th class="jp">名前</th>
-                <th class="en" style="display: none;">Name</th>
-                <th class="jp">会社</th>
-                <th class="en" style="display: none;">Companies</th>
-                <th class="jp">担当作品</th>
-                <th class="en" style="display: none;">Involved in</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><a href="example-translator.html">Example Translator</a></td>
-                <td>Funimation, Crunchyroll</td>
-                <td>Dragon Ball, One Piece</td>
-            </tr>
-            <tr>
-                <td><a href="jane-doe.html">Jane Doe</a></td>
-                <td>Netflix, Viz Media</td>
-                <td>Pokémon, Sailor Moon</td>
-            </tr>
-            <!-- Add more rows as needed for the database -->
-        </tbody>
-    </table>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th class="jp" data-label="名前">名前</th>
+                    <th class="en" style="display: none;" data-label="Name">Name</th>
+                    <th class="jp" data-label="会社">会社</th>
+                    <th class="en" style="display: none;" data-label="Companies">Companies</th>
+                    <th class="jp" data-label="担当作品">担当作品</th>
+                    <th class="en" style="display: none;" data-label="Involved in">Involved in</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-label="Name"><a href="example-translator.html">Example Translator</a></td>
+                    <td data-label="Companies">Funimation, Crunchyroll</td>
+                    <td data-label="Involved in">Dragon Ball, One Piece</td>
+                </tr>
+                <tr>
+                    <td data-label="Name"><a href="jane-doe.html">Jane Doe</a></td>
+                    <td data-label="Companies">Netflix, Viz Media</td>
+                    <td data-label="Involved in">Pokémon, Sailor Moon</td>
+                </tr>
+                <!-- Add more rows as needed for the database -->
+            </tbody>
+        </table>
+    </div>
 
     <script>
         let isEnglish = false;
@@ -80,6 +173,7 @@
         const searchInput = document.getElementById('search');
         const jpElements = document.querySelectorAll('.jp');
         const enElements = document.querySelectorAll('.en');
+        const thElements = document.querySelectorAll('th');
 
         toggleButton.addEventListener('click', () => {
             isEnglish = !isEnglish;
@@ -93,6 +187,15 @@
             // Toggle visibility for all jp and en elements
             jpElements.forEach(el => el.style.display = isEnglish ? 'none' : '');
             enElements.forEach(el => el.style.display = isEnglish ? '' : 'none');
+
+            // Update data-labels for responsive table
+            thElements.forEach(th => {
+                if (th.classList.contains('jp')) {
+                    th.dataset.label = isEnglish ? '' : th.textContent;
+                } else if (th.classList.contains('en')) {
+                    th.dataset.label = isEnglish ? th.textContent : '';
+                }
+            });
         });
 
         searchInput.addEventListener('input', (e) => {
