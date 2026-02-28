@@ -112,7 +112,7 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Data will be populated from CSV -->
+                <!-- Rows will be populated from CSV -->
             </tbody>
         </table>
     </div>
@@ -178,63 +178,55 @@
             });
         });
 
-        async function loadCSV() {
-            try {
-                const response = await fetch('data.csv');
-                if (!response.ok) throw new Error('Failed to load CSV');
-                const csv = await response.text();
-                const lines = csv.trim().split('\n');
-                const headers = lines[0].split(',').map(h => h.trim());
-                // Assuming headers are "Name","Companies","Involved in"
-                const rows = lines.slice(1);
+        function parseCSV(csv) {
+            const lines = csv.split(/\r?\n/);
+            const data = [];
+            for (let i = 0; i < lines.length; i++) {
+                if (lines[i].trim() === '') continue;
+                const values = [];
+                let value = '';
+                let inQuote = false;
+                for (let j = 0; j < lines[i].length; j++) {
+                    const char = lines[i][j];
+                    if (char === '"') {
+                        inQuote = !inQuote;
+                    } else if (char === ',' && !inQuote) {
+                        values.push(value.trim());
+                        value = '';
+                    } else {
+                        value += char;
+                    }
+                }
+                values.push(value.trim());
+                data.push(values);
+            }
+            return data.slice(1); // Skip header
+        }
+
+        fetch('data.csv')
+            .then(response => response.text())
+            .then(csv => {
+                const data = parseCSV(csv);
                 const tbody = document.querySelector('#database tbody');
-                tbody.innerHTML = '';
-                rows.forEach(row => {
-                    const cells = parseCSVRow(row); // Use a simple parser
-                    if (cells.length !== 3) return;
-                    const [name, companies, involved] = cells;
+                data.forEach(row => {
                     const tr = document.createElement('tr');
-                    const tdName = document.createElement('td');
-                    const a = document.createElement('a');
-                    a.href = `/person/${name.toLowerCase().replace(/\s+/g, '-')}.html`;
-                    a.textContent = name;
-                    tdName.appendChild(a);
-                    tr.appendChild(tdName);
-                    const tdComp = document.createElement('td');
-                    tdComp.textContent = companies;
-                    tr.appendChild(tdComp);
-                    const tdInv = document.createElement('td');
-                    tdInv.textContent = involved;
-                    tr.appendChild(tdInv);
+                    row.forEach((cell, index) => {
+                        const td = document.createElement('td');
+                        if (index === 0) {
+                            const a = document.createElement('a');
+                            a.href = `/person/${cell.toLowerCase().replace(/\s+/g, '-')}.html`;
+                            a.textContent = cell;
+                            td.appendChild(a);
+                        } else {
+                            td.textContent = cell;
+                        }
+                        tr.appendChild(td);
+                    });
                     tbody.appendChild(tr);
                 });
-            } catch (error) {
-                console.error('Error loading CSV:', error);
-            }
-        }
+            })
+            .catch(error => console.error('Error loading CSV:', error));
 
-        // Simple CSV row parser handling quoted fields
-        function parseCSVRow(row) {
-            const cells = [];
-            let current = '';
-            let inQuote = false;
-            for (let char of row) {
-                if (char === '"' && !inQuote) {
-                    inQuote = true;
-                } else if (char === '"' && inQuote) {
-                    inQuote = false;
-                } else if (char === ',' && !inQuote) {
-                    cells.push(current.trim());
-                    current = '';
-                } else {
-                    current += char;
-                }
-            }
-            cells.push(current.trim());
-            return cells;
-        }
-
-        document.addEventListener('DOMContentLoaded', loadCSV);
     </script>
 </body>
 </html>
