@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>John Doe - ローカライザー不正行為データベース</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            text-align: center;
+            padding: 20px;
+            background: #eee;
+        }
+        #lang-btn {
+            display: block;
+            margin: 10px auto;
+        }
+        nav {
+            background: #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            margin: 0 10px;
+            text-decoration: none;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        #content {
+            padding: 20px 0;
+        }
+        h2 {
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <header id="header">ローカライザー不正行為データベース</header>
+    <button id="lang-btn">English</button>
+    <nav>
+        <a id="cat-db" href="/">データベース</a>
+        <a id="cat-art" href="/articles.html">記事</a>
+        <a id="cat-con" href="/contact.html">お問い合わせ</a>
+    </nav>
+    <div class="container">
+        <div id="content">
+            <h1 id="person-name">John Doe</h1>
+            <p id="summary">John Doeは、翻訳とローカライズの分野で複数の不正行為に関与したとされる人物です。以下に証拠と詳細を記載します。</p>
+            
+            <h2 id="companies">会社</h2>
+            <ul>
+                <li>Company A</li>
+                <li>Company B</li>
+            </ul>
+            
+            <h2 id="involved">関与</h2>
+            <ul>
+                <li>Anime X</li>
+                <li>Manga Y</li>
+            </ul>
+            
+            <h2 id="evidence">証拠と文書</h2>
+            <p>以下は、John Doeの不正行為の具体的な例です：</p>
+            <ul>
+                <li id="evidence1">Anime Xの翻訳で、原文の意味を意図的に変更。証拠：スクリーンショット（リンクまたは埋め込み）。</li>
+                <li id="evidence2">Manga Yで、政治的なバイアスを挿入。証拠：比較表。</li>
+                <li id="evidence3">ソーシャルメディアでの発言で、意図的な歪曲を認める。証拠：アーカイブされた投稿。</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const texts = {
+            ja: {
+                title: 'John Doe - ローカライザー不正行為データベース',
+                button: 'English',
+                catDb: 'データベース',
+                catArt: '記事',
+                catCon: 'お問い合わせ',
+                personName: 'John Doe',
+                summary: 'John Doeは、翻訳とローカライズの分野で複数の不正行為に関与したとされる人物です。以下に証拠と詳細を記載します。',
+                companies: '会社',
+                involved: '関与',
+                evidence: '証拠と文書',
+                evidence1: 'Anime Xの翻訳で、原文の意味を意図的に変更。証拠：スクリーンショット（リンクまたは埋め込み）。',
+                evidence2: 'Manga Yで、政治的なバイアスを挿入。証拠：比較表。',
+                evidence3: 'ソーシャルメディアでの発言で、意図的な歪曲を認める。証拠：アーカイブされた投稿。'
+            },
+            en: {
+                title: 'John Doe - Localizer Malpractice Database',
+                button: '日本語',
+                catDb: 'Database',
+                catArt: 'Articles',
+                catCon: 'Contact',
+                personName: 'John Doe',
+                summary: 'John Doe is an individual alleged to have engaged in multiple instances of malpractice in the field of translation and localization. Below is comprehensive documentation and evidence.',
+                companies: 'Companies',
+                involved: 'Involved in',
+                evidence: 'Evidence and Documentation',
+                evidence1: 'In the translation of Anime X, intentionally altered the meaning of the original text. Evidence: Screenshot (link or embed).',
+                evidence2: 'Inserted political bias in Manga Y. Evidence: Comparison table.',
+                evidence3: 'Admitted to intentional distortion in social media posts. Evidence: Archived posts.'
+            }
+        };
+
+        let currentLang = 'ja';
+
+        function switchLang() {
+            currentLang = currentLang === 'ja' ? 'en' : 'ja';
+            document.documentElement.lang = currentLang;
+            const t = texts[currentLang];
+            document.title = t.title;
+            document.getElementById('header').textContent = t.title.replace('John Doe - ', ''); // Keep header as project name
+            document.getElementById('lang-btn').textContent = t.button;
+            document.getElementById('cat-db').textContent = t.catDb;
+            document.getElementById('cat-art').textContent = t.catArt;
+            document.getElementById('cat-con').textContent = t.catCon;
+            document.getElementById('person-name').textContent = t.personName;
+            document.getElementById('summary').textContent = t.summary;
+            document.getElementById('companies').textContent = t.companies;
+            document.getElementById('involved').textContent = t.involved;
+            document.getElementById('evidence').textContent = t.evidence;
+            document.getElementById('evidence1').textContent = t.evidence1;
+            document.getElementById('evidence2').textContent = t.evidence2;
+            document.getElementById('evidence3').textContent = t.evidence3;
+        }
+
+        document.getElementById('lang-btn').addEventListener('click', switchLang);
+    </script>
+</body>
+</html>
