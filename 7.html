@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ローカライザー不正行為データベース</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            text-align: center;
+            padding: 20px;
+            background: #eee;
+        }
+        #lang-btn {
+            display: block;
+            margin: 10px auto;
+        }
+        nav {
+            background: #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            margin: 0 10px;
+            text-decoration: none;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        #content {
+            padding: 20px 0;
+        }
+        #search {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            display: block;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        @media (max-width: 600px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+            thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+            tr {
+                border: 1px solid #ccc;
+                margin-bottom: 10px;
+            }
+            td {
+                border: none;
+                border-bottom: 1px solid #eee;
+                position: relative;
+                padding-left: 50%;
+            }
+            td:before {
+                position: absolute;
+                top: 6px;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+            }
+            :lang(ja) td:nth-of-type(1):before { content: "名前"; }
+            :lang(ja) td:nth-of-type(2):before { content: "会社"; }
+            :lang(ja) td:nth-of-type(3):before { content: "関与"; }
+            :lang(en) td:nth-of-type(1):before { content: "Name"; }
+            :lang(en) td:nth-of-type(2):before { content: "Companies"; }
+            :lang(en) td:nth-of-type(3):before { content: "Involved in"; }
+        }
+    </style>
+</head>
+<body>
+    <header id="header">ローカライザー不正行為データベース</header>
+    <button id="lang-btn">English</button>
+    <nav>
+        <a id="cat-db" href="/">データベース</a>
+        <a id="cat-art" href="/articles.html">記事</a>
+        <a id="cat-con" href="/contact.html">お問い合わせ</a>
+    </nav>
+    <div class="container">
+        <div id="content">
+            <p id="description">この検索可能なデータベースは、日本語メディアの翻訳とローカライズに関与する個人で、故意の不正行為を行う者をリストアップしています。不正行為の証拠を文書化・収集することで、企業が誰と仕事をするかを情報に基づいて決定するのを支援することを目指しています。長年にわたり、日本のアニメ、マンガ、ビデオゲームの海外ファン間の広範な不満の原因の一つは、ローカライザーによるソース素材の意図的な歪曲でした。私たちの使命は、業界における透明性と説明責任を確立することです。</p>
+            <p id="instruction">任意の人物の名前をクリックすると、不正行為の包括的な文書と証拠にアクセスできます。</p>
+        </div>
+        <input type="text" id="search" placeholder="データベースを検索">
+        <table id="database">
+            <thead>
+                <tr>
+                    <th id="col1">名前</th>
+                    <th id="col2">会社</th>
+                    <th id="col3">関与</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const texts = {
+            ja: {
+                title: 'ローカライザー不正行為データベース',
+                button: 'English',
+                catDb: 'データベース',
+                catArt: '記事',
+                catCon: 'お問い合わせ',
+                description: 'この検索可能なデータベースは、日本語メディアの翻訳とローカライズに関与する個人で、故意の不正行為を行う者をリストアップしています。不正行為の証拠を文書化・収集することで、企業が誰と仕事をするかを情報に基づいて決定するのを支援することを目指しています。長年にわたり、日本のアニメ、マンガ、ビデオゲームの海外ファン間の広範な不満の原因の一つは、ローカライザーによるソース素材の意図的な歪曲でした。私たちの使命は、業界における透明性と説明責任を確立することです。',
+                instruction: '任意の人物の名前をクリックすると、不正行為の包括的な文書と証拠にアクセスできます。',
+                placeholder: 'データベースを検索',
+                col1: '名前',
+                col2: '会社',
+                col3: '関与'
+            },
+            en: {
+                title: 'Localizer Malpractice Database',
+                button: '日本語',
+                catDb: 'Database',
+                catArt: 'Articles',
+                catCon: 'Contact',
+                description: 'This searchable database lists individuals involved in translation and localization of Japanese media who engage in deliberate malpractice. By documenting and collecting evidence of misconduct, we seek to help companies make informed decisions on who they work with. For years now, a widespread cause of discontent among overseas fans of Japanese anime, manga, and video games has been the intentional distortion of source material by localizers. Our mission is to establish transparency and accountability in the industry.',
+                instruction: 'Click on the name of any person to access comprehensive documentation and evidence of misconduct.',
+                placeholder: 'Search the database',
+                col1: 'Name',
+                col2: 'Companies',
+                col3: 'Involved in'
+            }
+        };
+
+        let currentLang = 'ja';
+
+        function switchLang() {
+            currentLang = currentLang === 'ja' ? 'en' : 'ja';
+            document.documentElement.lang = currentLang;
+            const t = texts[currentLang];
+            document.title = t.title;
+            document.getElementById('header').textContent = t.title;
+            document.getElementById('lang-btn').textContent = t.button;
+            document.getElementById('cat-db').textContent = t.catDb;
+            document.getElementById('cat-art').textContent = t.catArt;
+            document.getElementById('cat-con').textContent = t.catCon;
+            document.getElementById('description').textContent = t.description;
+            document.getElementById('instruction').textContent = t.instruction;
+            document.getElementById('search').placeholder = t.placeholder;
+            document.getElementById('col1').textContent = t.col1;
+            document.getElementById('col2').textContent = t.col2;
+            document.getElementById('col3').textContent = t.col3;
+        }
+
+        document.getElementById('lang-btn').addEventListener('click', switchLang);
+
+        document.getElementById('search').addEventListener('input', function(e) {
+            const term = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('#database tbody tr');
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(term) ? '' : 'none';
+            });
+        });
+
+        function populateTable() {
+            fetch('data.csv')
+                .then(response => response.text())
+                .then(csv => {
+                    Papa.parse(csv, {
+                        header: true,
+                        skipEmptyLines: true,
+                        complete: function(results) {
+                            const tbody = document.getElementById('tbody');
+                            results.data.forEach(row => {
+                                const tr = document.createElement('tr');
+                                const name = row.Name;
+                                const slug = name.toLowerCase().replace(/\s+/g, '-');
+                                const nameTd = document.createElement('td');
+                                nameTd.innerHTML = `<a href="/person/\( {slug}.html"> \){name}</a>`;
+                                tr.appendChild(nameTd);
+
+                                const companiesTd = document.createElement('td');
+                                companiesTd.textContent = row.Companies;
+                                tr.appendChild(companiesTd);
+
+                                const involvedTd = document.createElement('td');
+                                involvedTd.textContent = row['Involved in'];
+                                tr.appendChild(involvedTd);
+
+                                tbody.appendChild(tr);
+                            });
+                        }
+                    });
+                })
+                .catch(error => console.error('Error loading CSV:', error));
+        }
+
+        window.onload = populateTable;
+    </script>
+</body>
+</html>
