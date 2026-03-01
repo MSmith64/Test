@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ローカライザー不正行為データベース - John Doe</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            text-align: center;
+            padding: 20px;
+            background: #eee;
+        }
+        #lang-btn {
+            display: block;
+            margin: 10px auto;
+        }
+        nav {
+            background: #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            margin: 0 10px;
+            text-decoration: none;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        #content {
+            padding: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <header id="header">ローカライザー不正行為データベース</header>
+    <button id="lang-btn">English</button>
+    <nav>
+        <a id="cat-db" href="/">データベース</a>
+        <a id="cat-art" href="/articles.html">記事</a>
+        <a id="cat-con" href="/contact.html">お問い合わせ</a>
+    </nav>
+    <div class="container">
+        <div id="content">
+            <p id="name"><strong>名前:</strong> John Doe</p>
+            <p id="companies"><strong>会社:</strong> Company A, Company B</p>
+            <p id="involved"><strong>関与:</strong> Anime X, Manga Y</p>
+            <p id="social"><strong>ソーシャルメディア:</strong> @johndoe on X</p>
+            <p id="sample">John Doeは、オリジナルの内容に存在しない政治的なメッセージを挿入するなど、意図的な誤訳のいくつかの事例に関与しています。</p>
+        </div>
+    </div>
+
+    <script>
+        const texts = {
+            ja: {
+                title: 'ローカライザー不正行為データベース - John Doe',
+                button: 'English',
+                catDb: 'データベース',
+                catArt: '記事',
+                catCon: 'お問い合わせ',
+                name: '<strong>名前:</strong> John Doe',
+                companies: '<strong>会社:</strong> Company A, Company B',
+                involved: '<strong>関与:</strong> Anime X, Manga Y',
+                social: '<strong>ソーシャルメディア:</strong> @johndoe on X',
+                sample: 'John Doeは、オリジナルの内容に存在しない政治的なメッセージを挿入するなど、意図的な誤訳のいくつかの事例に関与しています。'
+            },
+            en: {
+                title: 'Localizer Malpractice Database - John Doe',
+                button: '日本語',
+                catDb: 'Database',
+                catArt: 'Articles',
+                catCon: 'Contact',
+                name: '<strong>Name:</strong> John Doe',
+                companies: '<strong>Companies:</strong> Company A, Company B',
+                involved: '<strong>Involved in:</strong> Anime X, Manga Y',
+                social: '<strong>Social media:</strong> @johndoe on X',
+                sample: 'John Doe has been involved in several instances of deliberate mistranslation, including altering dialogue to insert political messages not present in the original.'
+            }
+        };
+
+        let currentLang = 'ja';
+
+        function switchLang() {
+            currentLang = currentLang === 'ja' ? 'en' : 'ja';
+            document.documentElement.lang = currentLang;
+            const t = texts[currentLang];
+            document.title = t.title;
+            document.getElementById('header').textContent = t.title.split(' - ')[0]; // Keep header as project name only
+            document.getElementById('lang-btn').textContent = t.button;
+            document.getElementById('cat-db').textContent = t.catDb;
+            document.getElementById('cat-art').textContent = t.catArt;
+            document.getElementById('cat-con').textContent = t.catCon;
+            document.getElementById('name').innerHTML = t.name;
+            document.getElementById('companies').innerHTML = t.companies;
+            document.getElementById('involved').innerHTML = t.involved;
+            document.getElementById('social').innerHTML = t.social;
+            document.getElementById('sample').textContent = t.sample;
+        }
+
+        document.getElementById('lang-btn').addEventListener('click', switchLang);
+    </script>
+</body>
+</html>
