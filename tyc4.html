@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thelemic Year • Aeon Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&amp;family=Playfair+Display:wght@400;700&amp;display=swap');
+        
+        :root {
+            --gold: #d4af77;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0f2e 100%);
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .tail-text {
+            font-family: 'Cinzel', serif;
+        }
+        
+        .card {
+            background: rgba(15, 15, 25, 0.95);
+            border: 2px solid #d4af77;
+            box-shadow: 0 0 40px rgba(212, 175, 119, 0.3);
+        }
+        
+        .glow-gold {
+            text-shadow: 0 0 15px #d4af77;
+        }
+        
+        .mystical-border {
+            position: relative;
+        }
+        
+        .mystical-border::before {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border: 1px solid rgba(212, 175, 119, 0.4);
+            border-radius: 20px;
+            pointer-events: none;
+            animation: pulse 4s infinite alternate;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+        
+        .atu-symbol {
+            font-size: 2.5rem;
+            line-height: 1;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-[#e8d5b7] flex items-center justify-center p-6">
+    <div class="max-w-2xl w-full">
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <div class="inline-flex items-center gap-3 mb-4">
+                <i class="fa-solid fa-crown text-4xl text-[#d4af77]"></i>
+                <h1 class="text-5xl tracking-widest tail-text glow-gold">THELEMIC YEAR</h1>
+            </div>
+            <p class="text-xl text-[#b89e6e] italic">Anno Thelema • Since the Equinox of the Gods, 1904 e.v.</p>
+            <div class="h-px w-24 bg-gradient-to-r from-transparent via-[#d4af77] to-transparent mx-auto mt-6"></div>
+        </div>
+
+        <div class="card rounded-3xl p-10 mystical-border">
+            <div class="space-y-8">
+                <!-- Input Section -->
+                <div>
+                    <label class="block text-[#b89e6e] text-sm tracking-widest mb-2">GREGORIAN YEAR</label>
+                    <input 
+                        id="gregorian"
+                        type="number" 
+                        value="2025"
+                        class="w-full bg-[#111] border border-[#d4af77]/50 focus:border-[#d4af77] text-4xl text-center py-6 rounded-2xl outline-none transition-all focus:ring-4 focus:ring-[#d4af77]/20">
+                </div>
+
+                <!-- Equinox Toggle -->
+                <div>
+                    <label class="block text-[#b89e6e] text-sm tracking-widest mb-3">POSITION RELATIVE TO VERNAL EQUINOX</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <label id="after-label" onclick="selectEquinox(this)" 
+                               class="equinox-btn flex items-center justify-center gap-3 bg-[#1f1629] hover:bg-[#2a1f38] border-2 border-[#d4af77] text-[#d4af77] py-6 rounded-2xl cursor-pointer transition-all active:scale-95">
+                            <i class="fa-solid fa-sun text-2xl"></i>
+                            <div>
+                                <div class="font-bold text-xl tail-text">AFTER</div>
+                                <div class="text-xs opacity-70">March 20/21 onward</div>
+                            </div>
+                        </label>
+                        
+                        <label id="before-label" onclick="selectEquinox(this)" 
+                               class="equinox-btn flex items-center justify-center gap-3 bg-[#111] border-2 border-transparent hover:border-[#b89e6e]/70 py-6 rounded-2xl cursor-pointer transition-all active:scale-95">
+                            <i class="fa-solid fa-moon text-2xl"></i>
+                            <div>
+                                <div class="font-bold text-xl tail-text">BEFORE</div>
+                                <div class="text-xs opacity-70">Jan 1 – March 19</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Calculate Button -->
+                <button onclick="calculateThelemicYear()" 
+                        class="w-full py-7 bg-gradient-to-r from-[#d4af77] to-[#b89e6e] hover:from-[#e8c78a] hover:to-[#d4af77] text-[#0a0a0a] font-bold text-2xl tail-text tracking-widest rounded-2xl transition-all active:scale-95 shadow-xl">
+                    REVEAL THE AEON YEAR
+                </button>
+            </div>
+
+            <!-- Result -->
+            <div id="result" class="hidden mt-10 pt-8 border-t border-[#d4af77]/30">
+                <div class="text-center">
+                    <div class="inline-block bg-[#0a0a0a] px-8 py-3 rounded-3xl border border-[#d4af77]/70 mb-6">
+                        <span id="thelemic-display" 
+                              class="text-6xl tail-text tracking-[0.25em] text-[#d4af77] glow-gold"></span>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <!-- Docosade -->
+                        <div class="flex gap-6 items-center bg-[#111] rounded-2xl p-5">
+                            <div class="w-14 h-14 flex-shrink-0 bg-[#1f1629] rounded-2xl flex items-center justify-center text-4xl">📜</div>
+                            <div class="flex-1 text-left">
+                                <div class="text-[#b89e6e] text-xs tracking-widest">DOCOSADE OF</div>
+                                <div id="docosade-atu" class="text-2xl text-white"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Year -->
+                        <div class="flex gap-6 items-center bg-[#111] rounded-2xl p-5">
+                            <div class="w-14 h-14 flex-shrink-0 bg-[#1f1629] rounded-2xl flex items-center justify-center text-4xl">🃏</div>
+                            <div class="flex-1 text-left">
+                                <div class="text-[#b89e6e] text-xs tracking-widest">YEAR OF</div>
+                                <div id="year-atu" class="text-2xl text-white"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="total-info" class="mt-8 text-xs text-[#b89e6e] opacity-70"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Info -->
+        <div class="text-center mt-8 text-[#b89e6e]/60 text-sm">
+            <p class="flex items-center justify-center gap-2">
+                <span>Based on the official O.T.O. Thelemic calendar</span>
+                <i class="fa-solid fa-circle text-[4px]"></i>
+                <span>22-year docosades • Major Arcana ATUs</span>
+            </p>
+            <p class="mt-2 text-[10px]">Vernal Equinox marks the true Thelemic New Year</p>
+        </div>
+    </div>
+
+    <script>
+        // Tailwind script run
+        function initializeTailwind() {
+            // Already loaded via CDN
+        }
+        
+        // ATU Names (Thoth Tarot, 0-21)
+        const atuNames = [
+            "The Fool",
+            "The Magus",
+            "The High Priestess",
+            "The Empress",
+            "The Emperor",
+            "The Hierophant",
+            "The Lovers",
+            "The Chariot",
+            "Adjustment",
+            "The Hermit",
+            "Fortune",
+            "Lust",
+            "The Hanged Man",
+            "Death",
+            "Art",
+            "The Devil",
+            "The Tower",
+            "The Star",
+            "The Moon",
+            "The Sun",
+            "The Aeon",
+            "The Universe"
+        ];
+        
+        // Roman numeral converter (0 returns "0")
+        function romanize(num) {
+            if (num === 0) return "0";
+            if (num < 0) return "—";
+            
+            const lookup = [
+                { value: 1000, symbol: "M" },
+                { value: 900, symbol: "CM" },
+                { value: 500, symbol: "D" },
+                { value: 400, symbol: "CD" },
+                { value: 100, symbol: "C" },
+                { value: 90, symbol: "XC" },
+                { value: 50, symbol: "L" },
+                { value: 40, symbol: "XL" },
+                { value: 10, symbol: "X" },
+                { value: 9, symbol: "IX" },
+                { value: 5, symbol: "V" },
+                { value: 4, symbol: "IV" },
+                { value: 1, symbol: "I" }
+            ];
+            
+            let result = "";
+            for (let i = 0; i < lookup.length; i++) {
+                while (num >= lookup[i].value) {
+                    result += lookup[i].symbol;
+                    num -= lookup[i].value;
+                }
+            }
+            return result;
+        }
+        
+        // Select equinox (visual toggle)
+        function selectEquinox(el) {
+            const after = document.getElementById("after-label");
+            const before = document.getElementById("before-label");
+            
+            if (el === after) {
+                after.classList.add("border-[#d4af77]", "text-[#d4af77]");
+                after.classList.remove("bg-[#111]");
+                before.classList.remove("border-[#d4af77]", "text-[#d4af77]");
+                before.classList.add("bg-[#111]");
+            } else {
+                before.classList.add("border-[#d4af77]", "text-[#d4af77]");
+                before.classList.remove("bg-[#111]");
+                after.classList.remove("border-[#d4af77]", "text-[#d4af77]");
+                after.classList.add("bg-[#111]");
+            }
+        }
+        
+        // Main calculation
+        function calculateThelemicYear() {
+            const yearInput = document.getElementById("gregorian");
+            let gYear = parseInt(yearInput.value);
+            
+            if (!gYear || gYear < 1) {
+                alert("Please enter a valid Gregorian year");
+                return;
+            }
+            
+            // Determine after/before (default after)
+            let isAfter = true;
+            const afterBtn = document.getElementById("after-label");
+            if (!afterBtn.classList.contains("border-[#d4af77]")) {
+                isAfter = false;
+            }
+            
+            let totalYears = isAfter ? gYear - 1904 : gYear - 1905;
+            
+            // Pre-Aeon check
+            if (totalYears < 0) {
+                const resultDiv = document.getElementById("result");
+                resultDiv.innerHTML = `
+                    <div class="text-center py-12">
+                        <div class="mx-auto w-16 h-16 bg-red-900/30 rounded-2xl flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-ban text-3xl text-red-400"></i>
+                        </div>
+                        <div class="text-2xl text-red-300">Before the Aeon</div>
+                        <p class="mt-4 max-w-xs mx-auto text-[#b89e6e]">The Aeon of Horus began at the Vernal Equinox of 1904 e.v.<br>Thelemic reckoning starts here.</p>
+                    </div>
+                `;
+                resultDiv.classList.remove("hidden");
+                return;
+            }
+            if (totalYears > 9999) {
+                alert("Year too far in the future for this calculator.");
+                return;
+            }
+            
+            // Calculate docosade & year
+            const docosadeNum = Math.floor(totalYears / 22);
+            const yearInDocosade = totalYears % 22;
+            
+            // Roman numerals
+            let docRoman = romanize(docosadeNum);
+            let yearRoman = romanize(yearInDocosade).toLowerCase();
+            
+            // Display format exactly as requested: (docosade)/(year)
+            const displayStr = `(\( {docRoman})/( \){yearRoman})`;
+            
+            // ATU indices
+            const docIndex = docosadeNum % 22;
+            const yearIndex = yearInDocosade;
+            
+            const docAtuName = atuNames[docIndex];
+            const yearAtuName = atuNames[yearIndex];
+            
+            // Populate result
+            const resultDiv = document.getElementById("result");
+            
+            document.getElementById("thelemic-display").innerHTML = displayStr;
+            document.getElementById("docosade-atu").innerHTML = `
+                ATU \( {docosadeNum % 22 === 0 ? "0" : romanize(docosadeNum % 22)} — <span class="text-[#d4af77]"> \){docAtuName}</span>
+            `;
+            document.getElementById("year-atu").innerHTML = `
+                ATU \( {yearIndex === 0 ? "0" : romanize(yearIndex)} — <span class="text-[#d4af77]"> \){yearAtuName}</span>
+            `;
+            
+            // Extra info
+            document.getElementById("total-info").innerHTML = `
+                ${gYear} e.v. = Year ${totalYears} of the Aeon<br>
+                <span class="italic">Docosade of ${docAtuName} • Year of ${yearAtuName}</span>
+            `;
+            
+            resultDiv.classList.remove("hidden");
+            
+            // Subtle animation
+            resultDiv.style.opacity = 0;
+            setTimeout(() => {
+                resultDiv.style.transition = "opacity 0.8s ease";
+                resultDiv.style.opacity = 1;
+            }, 10);
+        }
+        
+        // Auto-set current year and default "after"
+        window.onload = function() {
+            const currentYear = new Date().getFullYear();
+            document.getElementById("gregorian").value = currentYear;
+            
+            // Default to AFTER
+            const afterBtn = document.getElementById("after-label");
+            afterBtn.classList.add("border-[#d4af77]", "text-[#d4af77]");
+            
+            // Demo calculation on load (optional but nice)
+            setTimeout(() => {
+                calculateThelemicYear();
+            }, 420);
+        }
+        
+        // Keyboard support: Enter key
+        document.addEventListener("keydown", function(e) {
+            if (e.key === "Enter") {
+                const resultVisible = !document.getElementById("result").classList.contains("hidden");
+                if (resultVisible) {
+                    // re-calculate
+                    calculateThelemicYear();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
