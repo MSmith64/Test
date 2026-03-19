@@ -103,12 +103,6 @@
     </div>
 
     <script>
-        // Tailwind script run
-        function initializeTailwind() {
-            // Already loaded via CDN
-        }
-
-        // Roman numeral converter (uppercase for docosades)
         function toRoman(num) {
             if (num === 0) return "0";
             const map = [
@@ -136,7 +130,6 @@
             return result;
         }
 
-        // Lowercase Romans for inner year (0–21)
         const lowerRomans = [
             "0", "i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix",
             "x", "xi", "xii", "xiii", "xiv", "xv", "xvi", "xvii", "xviii", "xix",
@@ -144,7 +137,6 @@
         ];
 
         function getThelemicYear(year, month, day) {
-            // month and day are 1-indexed
             const afterEquinox = (month > 3) || (month === 3 && day >= 20);
             let N = afterEquinox ? year - 1904 : year - 1905;
 
@@ -172,14 +164,11 @@
 
         function calculate() {
             const input = document.getElementById("dateInput");
-            if (!input.value) {
-                alert("Please select a date");
-                return;
-            }
+            if (!input.value) return; // ← Pop-up message removed
 
             const date = new Date(input.value);
             const year = date.getFullYear();
-            const month = date.getMonth() + 1; // 1-12
+            const month = date.getMonth() + 1;
             const day = date.getDate();
 
             const result = getThelemicYear(year, month, day);
@@ -195,29 +184,20 @@
                 return;
             }
 
-            // Main year display
             document.getElementById("thelemicYear").textContent = result.notation;
             
-            // Subtitle
             document.getElementById("subtitle").innerHTML = `
                 <span class="text-amber-200">${year} e.v.</span> 
                 <span class="text-amber-400/60 mx-3">•</span> 
                 after the Vernal Equinox
             `;
 
-            // Details
             document.getElementById("totalYears").textContent = result.totalYears;
             document.getElementById("docInner").innerHTML = `
                 ${result.docosade} 
                 <span class="text-amber-400/40 mx-1">•</span> 
                 ${result.inner}
             `;
-
-            // Update note dynamically
-            const noteEl = document.getElementById("note");
-            if (month === 3 && day === 20) {
-                noteEl.innerHTML = `March 20 — Thelemic New Year begins!`;
-            }
         }
 
         function useToday() {
@@ -233,19 +213,11 @@
             calculate();
         }
 
-        // Auto-run on load with today's date
         window.onload = function() {
-            // Tailwind ready
             useToday();
             
-            // Live update on date change
             const dateInput = document.getElementById("dateInput");
             dateInput.addEventListener("change", calculate);
-            
-            // Keyboard support (Enter on date)
-            dateInput.addEventListener("keypress", function(e) {
-                if (e.key === "Enter") calculate();
-            });
         };
     </script>
 </body>
