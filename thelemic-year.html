@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thelemic Year Converter</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&amp;family=Playfair+Display:wght@400;700&amp;display=swap');
+        
+        body {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .thelemic-font {
+            font-family: 'Cinzel', serif;
+        }
+
+        .result-card {
+            background: linear-gradient(145deg, #1a1a1a, #2a1f14);
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4);
+        }
+
+        .gold-glow {
+            text-shadow: 0 0 15px rgb(245 158 11);
+        }
+    </style>
+</head>
+<body class="bg-zinc-950 text-amber-100 min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-lg w-full">
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <div class="inline-flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 bg-amber-400 rounded-full flex items-center justify-center text-zinc-950 text-3xl leading-none pt-0.5">☉</div>
+                <h1 class="thelemic-font text-5xl font-bold tracking-widest text-amber-400 gold-glow">THELEMA</h1>
+            </div>
+            <p class="text-xl text-amber-300/90">Year Converter • Aeon of Horus</p>
+            <div class="h-px bg-gradient-to-r from-transparent via-amber-400/50 to-transparent my-6"></div>
+        </div>
+
+        <div class="bg-zinc-900/90 backdrop-blur-xl rounded-3xl p-8 result-card border border-amber-400/20">
+            <!-- Date Input -->
+            <div class="space-y-6">
+                <div>
+                    <label for="dateInput" class="block text-sm font-medium text-amber-300 mb-2 tracking-widest">GREGORIAN DATE</label>
+                    <div class="relative">
+                        <input 
+                            type="date" 
+                            id="dateInput"
+                            class="w-full bg-zinc-950 border border-amber-400/30 focus:border-amber-400 rounded-2xl px-6 py-5 text-2xl text-white outline-none transition-all focus:ring-2 focus:ring-amber-400/30 cursor-pointer">
+                    </div>
+                </div>
+
+                <div class="flex gap-3">
+                    <button onclick="useToday()" 
+                            class="flex-1 bg-zinc-800 hover:bg-amber-400 hover:text-zinc-950 transition-all font-medium py-4 rounded-2xl text-sm tracking-widest">
+                        TODAY'S DATE
+                    </button>
+                    <button onclick="calculate()" 
+                            class="flex-1 bg-amber-400 hover:bg-amber-300 text-zinc-950 font-semibold py-4 rounded-2xl text-sm tracking-widest transition-all">
+                        CONVERT
+                    </button>
+                </div>
+            </div>
+
+            <!-- Result -->
+            <div id="result" class="mt-10 hidden">
+                <div class="border border-amber-400/30 rounded-2xl p-8 text-center bg-zinc-950/70">
+                    <p class="text-amber-300/70 text-xs tracking-[3px] mb-2">THELEMIC YEAR</p>
+                    <div id="thelemicYear" 
+                         class="thelemic-font text-6xl font-bold text-amber-400 gold-glow tracking-widest mb-1">
+                    </div>
+                    <div id="subtitle" class="text-amber-200/80 text-lg"></div>
+                    
+                    <div class="my-8 h-px bg-gradient-to-r from-transparent via-amber-400/30 to-transparent"></div>
+                    
+                    <div class="grid grid-cols-2 gap-6 text-left text-sm">
+                        <div>
+                            <p class="text-amber-300/60">YEARS SINCE 1904</p>
+                            <p id="totalYears" class="text-3xl font-medium text-white"></p>
+                        </div>
+                        <div>
+                            <p class="text-amber-300/60">DOCOSADE • INNER</p>
+                            <p id="docInner" class="text-3xl font-medium text-white"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Note -->
+            <div class="mt-8 text-center">
+                <p id="note" class="text-xs text-amber-400/60 max-w-xs mx-auto">
+                    The Thelemic New Year begins at the Vernal Equinox.<br>
+                    This converter uses March 20 as the boundary (standard approximation).
+                </p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-8 text-center text-[10px] text-amber-400/40 tracking-widest">
+            ANNO • DO WHAT THOU WILT • 93 93/93
+        </div>
+    </div>
+
+    <script>
+        // Tailwind script run
+        function initializeTailwind() {
+            // Already loaded via CDN
+        }
+
+        // Roman numeral converter (uppercase for docosades)
+        function toRoman(num) {
+            if (num === 0) return "0";
+            const map = [
+                {value: 1000, symbol: "M"},
+                {value: 900, symbol: "CM"},
+                {value: 500, symbol: "D"},
+                {value: 400, symbol: "CD"},
+                {value: 100, symbol: "C"},
+                {value: 90, symbol: "XC"},
+                {value: 50, symbol: "L"},
+                {value: 40, symbol: "XL"},
+                {value: 10, symbol: "X"},
+                {value: 9, symbol: "IX"},
+                {value: 5, symbol: "V"},
+                {value: 4, symbol: "IV"},
+                {value: 1, symbol: "I"}
+            ];
+            let result = "";
+            for (let i = 0; i < map.length; i++) {
+                while (num >= map[i].value) {
+                    result += map[i].symbol;
+                    num -= map[i].value;
+                }
+            }
+            return result;
+        }
+
+        // Lowercase Romans for inner year (0–21)
+        const lowerRomans = [
+            "0", "i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix",
+            "x", "xi", "xii", "xiii", "xiv", "xv", "xvi", "xvii", "xviii", "xix",
+            "xx", "xxi"
+        ];
+
+        function getThelemicYear(year, month, day) {
+            // month and day are 1-indexed
+            const afterEquinox = (month > 3) || (month === 3 && day >= 20);
+            let N = afterEquinox ? year - 1904 : year - 1905;
+
+            if (N < 0) {
+                return {
+                    error: true,
+                    message: "Before the Aeon of Horus (1904)"
+                };
+            }
+
+            const docosade = Math.floor(N / 22);
+            const inner = N % 22;
+
+            const docStr = docosade === 0 ? "0" : toRoman(docosade);
+            const innerStr = lowerRomans[inner];
+
+            return {
+                notation: `Anno \( {docStr}: \){innerStr}`,
+                totalYears: N,
+                docosade: docStr,
+                inner: innerStr,
+                error: false
+            };
+        }
+
+        function calculate() {
+            const input = document.getElementById("dateInput");
+            if (!input.value) {
+                alert("Please select a date");
+                return;
+            }
+
+            const date = new Date(input.value);
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1; // 1-12
+            const day = date.getDate();
+
+            const result = getThelemicYear(year, month, day);
+
+            const resultDiv = document.getElementById("result");
+            resultDiv.classList.remove("hidden");
+
+            if (result.error) {
+                document.getElementById("thelemicYear").innerHTML = `<span class="text-red-400 text-4xl">✗</span>`;
+                document.getElementById("subtitle").innerHTML = `<span class="text-red-400">${result.message}</span>`;
+                document.getElementById("totalYears").textContent = "—";
+                document.getElementById("docInner").textContent = "—";
+                return;
+            }
+
+            // Main year display
+            document.getElementById("thelemicYear").textContent = result.notation;
+            
+            // Subtitle
+            document.getElementById("subtitle").innerHTML = `
+                <span class="text-amber-200">${year} e.v.</span> 
+                <span class="text-amber-400/60 mx-3">•</span> 
+                after the Vernal Equinox
+            `;
+
+            // Details
+            document.getElementById("totalYears").textContent = result.totalYears;
+            document.getElementById("docInner").innerHTML = `
+                ${result.docosade} 
+                <span class="text-amber-400/40 mx-1">•</span> 
+                ${result.inner}
+            `;
+
+            // Update note dynamically
+            const noteEl = document.getElementById("note");
+            if (month === 3 && day === 20) {
+                noteEl.innerHTML = `March 20 — Thelemic New Year begins!`;
+            }
+        }
+
+        function useToday() {
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            let mm = today.getMonth() + 1;
+            let dd = today.getDate();
+            if (mm < 10) mm = '0' + mm;
+            if (dd < 10) dd = '0' + dd;
+            
+            const dateStr = `\( {yyyy}- \){mm}-${dd}`;
+            document.getElementById("dateInput").value = dateStr;
+            calculate();
+        }
+
+        // Auto-run on load with today's date
+        window.onload = function() {
+            // Tailwind ready
+            useToday();
+            
+            // Live update on date change
+            const dateInput = document.getElementById("dateInput");
+            dateInput.addEventListener("change", calculate);
+            
+            // Keyboard support (Enter on date)
+            dateInput.addEventListener("keypress", function(e) {
+                if (e.key === "Enter") calculate();
+            });
+        };
+    </script>
+</body>
+</html>
