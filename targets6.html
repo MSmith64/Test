@@ -1,0 +1,195 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Remote Viewing Targets</title>
+  <style>
+    * { box-sizing: border-box; }body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 16px;
+  background: #111;
+  color: #eee;
+}
+
+h1, h2 {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+}
+
+.button, .target {
+  display: block;
+  padding: 14px;
+  margin: 10px 0;
+  background: #222;
+  border: 1px solid #444;
+  text-align: center;
+  cursor: pointer;
+  text-decoration: none;
+  color: #eee;
+  border-radius: 10px;
+  transition: 0.2s;
+  font-size: 16px;
+}
+
+.button:hover, .target:hover {
+  background: #333;
+}
+
+.hidden { display: none; }
+
+img {
+  width: 100%;
+  height: auto;
+  margin-top: 12px;
+  border-radius: 10px;
+}
+
+/* Grid for larger screens */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+/* Tablet */
+@media (min-width: 600px) {
+  body { padding: 24px; }
+
+  .button, .target {
+    font-size: 17px;
+    padding: 16px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Desktop */
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  /* Fix symmetry for home buttons */
+  .home-grid {
+    grid-template-columns: 1fr 1fr;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  h1 { font-size: 2.2rem; }
+  h2 { font-size: 1.8rem; }
+}
+
+  h1 { font-size: 2.2rem; }
+  h2 { font-size: 1.8rem; }
+}
+
+  </style>
+</head>
+<body><div class="container" id="app"></div><script>
+const app = document.getElementById("app");
+
+const targets = {
+  practice: Array.from({ length: 6 }, (_, i) => ({
+    id: `xxxx-xxxx-${i + 1}`,
+    text: "A calm natural scene with water and trees.",
+    image: "https://via.placeholder.com/400"
+  })),
+  assorted: Array.from({ length: 6 }, (_, i) => ({
+    id: `xxxx-xxxx-${i + 7}`,
+    text: "An unusual or abstract target.",
+    image: "https://via.placeholder.com/400"
+  }))
+};
+
+function navigate(path) {
+  location.hash = path;
+}
+
+function getRoute() {
+  return location.hash.slice(1) || "/";
+}
+
+function Home() {
+  app.innerHTML = `
+    <h1>Remote Viewing Targets</h1>
+    <div class="grid home-grid">
+      <div class="button" onclick="navigate('/practice')">Practice Targets</div>
+      <div class="button" onclick="navigate('/assorted')">Assorted Targets</div>
+    </div>
+  `;
+}
+
+function TargetList(type) {
+  const list = targets[type];
+
+  const disclaimer = type === "assorted"
+    ? `<p style="margin-bottom:12px; text-align:center; font-size:14px; opacity:0.8;">Note: These targets can range from mundane to highly esoteric in nature.</p>`
+    : "";
+
+  app.innerHTML = `
+    <h2>${type.charAt(0).toUpperCase() + type.slice(1)} Targets</h2>
+    ${disclaimer}
+    <div class="button" onclick="navigate('/')">← Back</div>
+    <div class="grid">
+    <h2>${type.charAt(0).toUpperCase() + type.slice(1)} Targets</h2>
+    <div class="button" onclick="navigate('/')">← Back</div>
+    <div class="grid">
+      ${list.map((t, i) => `
+        <div class="target" onclick="navigate('/target/${t.id}')">
+          ${i + 1}. ${t.id}
+        </div>
+      `).join("")}
+    </div>
+  `;
+}
+
+function TargetPage(id) {
+  const all = [...targets.practice, ...targets.assorted];
+  const target = all.find(t => t.id === id);
+
+  if (!target) {
+    app.innerHTML = `<h2>Target not found</h2>`;
+    return;
+  }
+
+  app.innerHTML = `
+    <h2>Target ID: ${id}</h2>
+    <div class="button" onclick="navigate('/')">← Home</div>
+    <div class="button" onclick="document.getElementById('feedback').classList.toggle('hidden')">
+      Reveal Feedback
+    </div>
+    <div id="feedback" class="hidden">
+      <p>${target.text}</p>
+      <img src="${target.image}" />
+    </div>
+  `;
+}
+
+function router() {
+  const route = getRoute();
+
+  if (route === "/") return Home();
+  if (route === "/practice") return TargetList("practice");
+  if (route === "/assorted") return TargetList("assorted");
+
+  if (route.startsWith("/target/")) {
+    const id = route.split("/")[2];
+    return TargetPage(id);
+  }
+
+  Home();
+}
+
+window.addEventListener("hashchange", router);
+router();
+</script></body>
+</html>
