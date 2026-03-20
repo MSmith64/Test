@@ -63,7 +63,11 @@
                 </div>
 
                 <div class="text-center">
-                    <div id="target-id-big" class="mono text-[120px] leading-none font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-zinc-700">1001-ABCD</div>
+                    <!-- FIXED RESPONSIVE GRADIENT ID -->
+                    <div id="target-id-big" 
+                         class="mono text-[clamp(48px,8vw,96px)] leading-none font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-zinc-700 mx-auto">
+                        1001-ABCD
+                    </div>
                     <p class="text-zinc-400 mt-4 text-lg">Close your eyes. Sketch. Describe.</p>
                     <p class="text-amber-400 text-sm mt-8 flex items-center justify-center gap-2">
                         <i class="fa-solid fa-eye-slash"></i>
@@ -113,51 +117,20 @@
     </footer>
 
     <script>
-        // Target database
+        // Target database (unchanged)
         const targetData = {
-            "1001-ABCD": {
-                cue: "A serene mountain lake surrounded by pine trees at dawn.",
-                photos: ["https://picsum.photos/id/1015/1200/800"]
-            },
-            "1002-EFGH": {
-                cue: "A bustling European city street with historic architecture and cafes.",
-                photos: ["https://picsum.photos/id/29/1200/800", "https://picsum.photos/id/30/1200/800"]
-            },
-            "1003-IJKL": {
-                cue: "An ancient oak tree standing tall in a misty forest.",
-                photos: []
-            },
-            "1004-MNOP": {
-                cue: "",
-                photos: ["https://picsum.photos/id/201/1200/800"]
-            },
-            "2001-QRST": {
-                cue: "A simple red apple resting on a wooden kitchen table.",
-                photos: ["https://picsum.photos/id/312/1200/800"]
-            },
-            "2002-UVWX": {
-                cue: "The Great Pyramid of Giza under a clear blue sky.",
-                photos: ["https://picsum.photos/id/133/1200/800"]
-            },
-            "2003-YZAB": {
-                cue: "A mysterious crop circle formation in a wheat field at sunrise.",
-                photos: ["https://picsum.photos/id/160/1200/800"]
-            },
-            "2004-CDEF": {
-                cue: "An underwater coral reef teeming with colorful tropical fish.",
-                photos: []
-            },
-            "2005-GHIJ": {
-                cue: "A glowing crystal portal inside an ancient cavern with ethereal light.",
-                photos: ["https://picsum.photos/id/180/1200/800"]
-            },
-            "2006-KLMN": {
-                cue: "An unidentified flying object hovering silently over a desert landscape at night.",
-                photos: ["https://picsum.photos/id/251/1200/800"]
-            }
+            "1001-ABCD": { cue: "A serene mountain lake surrounded by pine trees at dawn.", photos: ["https://picsum.photos/id/1015/1200/800"] },
+            "1002-EFGH": { cue: "A bustling European city street with historic architecture and cafes.", photos: ["https://picsum.photos/id/29/1200/800", "https://picsum.photos/id/30/1200/800"] },
+            "1003-IJKL": { cue: "An ancient oak tree standing tall in a misty forest.", photos: [] },
+            "1004-MNOP": { cue: "", photos: ["https://picsum.photos/id/201/1200/800"] },
+            "2001-QRST": { cue: "A simple red apple resting on a wooden kitchen table.", photos: ["https://picsum.photos/id/312/1200/800"] },
+            "2002-UVWX": { cue: "The Great Pyramid of Giza under a clear blue sky.", photos: ["https://picsum.photos/id/133/1200/800"] },
+            "2003-YZAB": { cue: "A mysterious crop circle formation in a wheat field at sunrise.", photos: ["https://picsum.photos/id/160/1200/800"] },
+            "2004-CDEF": { cue: "An underwater coral reef teeming with colorful tropical fish.", photos: [] },
+            "2005-GHIJ": { cue: "A glowing crystal portal inside an ancient cavern with ethereal light.", photos: ["https://picsum.photos/id/180/1200/800"] },
+            "2006-KLMN": { cue: "An unidentified flying object hovering silently over a desert landscape at night.", photos: ["https://picsum.photos/id/251/1200/800"] }
         };
 
-        // Get target ID from URL
         const urlParams = new URLSearchParams(window.location.search);
         const targetId = urlParams.get('id');
 
@@ -168,11 +141,8 @@
             errorSection.classList.remove('hidden');
             validSection.classList.add('hidden');
         } else {
-            // Populate ID
             document.getElementById('target-id-display').textContent = targetId;
             document.getElementById('target-id-big').textContent = targetId;
-
-            // Store data for reveal
             window.currentTarget = targetData[targetId];
         }
 
@@ -186,8 +156,6 @@
                 area.classList.remove('hidden');
                 
                 const data = window.currentTarget;
-                
-                // Photos
                 const photoContainer = document.getElementById('photos-container');
                 photoContainer.innerHTML = '';
                 
@@ -206,10 +174,8 @@
                         </div>`;
                 }
                 
-                // Cue
                 const cueSection = document.getElementById('cue-section');
                 const cueText = document.getElementById('cue-text');
-                
                 if (data.cue && data.cue.trim() !== '') {
                     cueText.textContent = data.cue;
                     cueSection.style.display = 'block';
@@ -219,7 +185,6 @@
             }, 300);
         }
 
-        // Keyboard shortcut for fun
         document.addEventListener('keydown', function(e) {
             if (e.key === '/' && document.getElementById('feedback-area').classList.contains('hidden')) {
                 revealFeedback();
