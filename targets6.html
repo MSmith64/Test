@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AetherView • Remote Viewing Targets</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+        
+        :root {
+            --accent: 234 179 8;
+        }
+        
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .logo-font {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .target-id {
+            font-family: monospace;
+            letter-spacing: 2px;
+        }
+
+        .modal {
+            animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        @keyframes modalPop {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .reveal-btn {
+            background: linear-gradient(90deg, rgb(234 179 8), rgb(245 158 11));
+        }
+    </style>
+</head>
+<body class="bg-zinc-950 text-zinc-200">
+    <!-- NAVBAR -->
+    <nav class="bg-black border-b border-zinc-800 fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 bg-yellow-400 rounded-2xl flex items-center justify-center text-black font-bold text-2xl">👁</div>
+                <div>
+                    <span class="logo-font text-3xl font-semibold tracking-tighter text-white">AETHER</span>
+                    <span class="logo-font text-3xl font-semibold tracking-tighter text-yellow-400">VIEW</span>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-8 text-sm font-medium">
+                <button onclick="navigateTo('home')" 
+                        class="nav-link hover:text-yellow-400 transition-colors flex items-center gap-2 active">
+                    <i class="fa-solid fa-house"></i>
+                    HOME
+                </button>
+                <button onclick="navigateTo('practice')" 
+                        class="nav-link hover:text-yellow-400 transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-bullseye"></i>
+                    PRACTICE
+                </button>
+                <button onclick="navigateTo('assorted')" 
+                        class="nav-link hover:text-yellow-400 transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-globe"></i>
+                    ASSORTED
+                </button>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <div class="px-4 py-2 bg-zinc-900 rounded-3xl text-xs font-mono border border-zinc-700 flex items-center gap-2">
+                    <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                    47 TARGETS LIVE
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="pt-20 min-h-screen pb-20">
+        
+        <!-- HOME PAGE -->
+        <div id="home-page" class="page max-w-7xl mx-auto px-6">
+            <div class="min-h-[80vh] flex items-center">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <div>
+                        <div class="inline-flex items-center gap-2 bg-zinc-900 border border-yellow-400/30 text-yellow-400 text-sm px-5 py-2 rounded-3xl mb-6">
+                            <i class="fa-solid fa-eye"></i>
+                            REMOTE VIEWING PRACTICE PLATFORM
+                        </div>
+                        <h1 class="text-7xl font-bold leading-none tracking-tighter logo-font text-white mb-6">
+                            TARGETS FOR<br>THE MIND'S EYE
+                        </h1>
+                        <p class="text-xl text-zinc-400 max-w-md mb-10">
+                            Professional-grade remote viewing targets. 
+                            Practice with verified feedback or explore mundane to esoteric assignments.
+                        </p>
+                        <div class="flex gap-4">
+                            <button onclick="navigateTo('practice')" 
+                                    class="px-8 py-5 bg-white text-black font-semibold rounded-3xl flex items-center gap-3 hover:scale-105 transition-all">
+                                START PRACTICE
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                            <button onclick="navigateTo('assorted')" 
+                                    class="px-8 py-5 border border-zinc-400 hover:border-yellow-400 font-medium rounded-3xl transition-all">
+                                BROWSE ASSORTED
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="relative">
+                        <div class="bg-gradient-to-br from-yellow-400/10 to-transparent p-8 rounded-3xl border border-yellow-400/20">
+                            <img src="https://picsum.photos/id/1015/800/600" 
+                                 class="rounded-3xl shadow-2xl" alt="Mystic target">
+                            <div class="absolute -bottom-6 -right-6 bg-black border border-yellow-400 p-6 rounded-3xl max-w-[240px]">
+                                <div class="text-xs uppercase tracking-widest text-yellow-400 mb-1">Today's Featured Target</div>
+                                <div class="font-mono text-3xl text-white">8743-KLMP</div>
+                                <div class="text-zinc-400 text-sm mt-4">A hidden temple in the Himalayas at twilight</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PRACTICE PAGE -->
+        <div id="practice-page" class="page hidden max-w-7xl mx-auto px-6">
+            <div class="mb-12">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <span class="text-yellow-400 text-sm font-medium tracking-widest">LEVEL 1 • BEGINNER FRIENDLY</span>
+                        <h2 class="text-5xl font-bold logo-font tracking-tighter">Practice Targets</h2>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-xs font-mono bg-zinc-900 px-6 py-3 rounded-3xl border border-zinc-700 inline-flex items-center gap-3">
+                            <span class="text-emerald-400">●</span>
+                            12 TARGETS • VERIFIED FEEDBACK
+                        </div>
+                    </div>
+                </div>
+                <p class="text-zinc-400 mt-3 max-w-md">Simple, clean targets perfect for daily practice. Each includes full photo feedback.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="practice-list">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <!-- ASSORTED PAGE -->
+        <div id="assorted-page" class="page hidden max-w-7xl mx-auto px-6">
+            <div class="mb-12">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <span class="text-purple-400 text-sm font-medium tracking-widest">LEVEL ∞ • OPEN REALM</span>
+                        <h2 class="text-5xl font-bold logo-font tracking-tighter">Assorted Targets</h2>
+                    </div>
+                </div>
+                
+                <!-- DISCLAIMER -->
+                <div class="mt-6 max-w-2xl bg-zinc-900 border border-purple-400/30 rounded-3xl p-8 text-sm">
+                    <div class="flex gap-4">
+                        <i class="fa-solid fa-triangle-exclamation text-2xl text-purple-400 mt-1"></i>
+                        <div>
+                            <strong class="text-purple-400">IMPORTANT DISCLAIMER:</strong><br>
+                            The targets in this section can range from mundane everyday scenes to highly esoteric, historical, 
+                            futuristic, or metaphysical subjects. Some feedback may contain imagery that challenges conventional perception. 
+                            Use with an open mind.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="assorted-list">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- TARGET MODAL (dedicated page simulation) -->
+    <div id="target-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-[999]">
+        <div class="modal bg-zinc-900 rounded-3xl max-w-3xl w-full mx-6 overflow-hidden border border-yellow-400/30 shadow-2xl">
+            
+            <!-- Modal Header -->
+            <div class="px-8 py-6 border-b border-zinc-800 flex items-center justify-between">
+                <div>
+                    <div class="text-xs font-mono tracking-[3px] text-yellow-400 mb-1">TARGET ID</div>
+                    <div id="modal-target-id" class="target-id text-4xl font-bold text-white"></div>
+                </div>
+                <button onclick="closeModal()" 
+                        class="w-10 h-10 flex items-center justify-center text-2xl hover:bg-zinc-800 rounded-2xl transition-colors">
+                    ✕
+                </button>
+            </div>
+
+            <!-- Content -->
+            <div class="p-8">
+                <div class="flex justify-center mb-8">
+                    <button onclick="revealFeedback()" 
+                            id="reveal-button"
+                            class="reveal-btn text-black font-bold text-lg px-12 py-6 rounded-3xl flex items-center gap-4 hover:scale-105 active:scale-95 transition-all shadow-xl shadow-yellow-400/30">
+                        <i class="fa-solid fa-eye"></i>
+                        REVEAL FEEDBACK
+                    </button>
+                </div>
+
+                <!-- Feedback area (initially hidden) -->
+                <div id="feedback-area" class="hidden space-y-8">
+                    
+                    <!-- Photo(s) -->
+                    <div id="photo-container" class="hidden">
+                        <div class="text-xs uppercase tracking-widest text-zinc-500 mb-3">VISUAL FEEDBACK</div>
+                        <img id="modal-photo" 
+                             class="w-full rounded-3xl shadow-inner border border-zinc-700" 
+                             alt="Target feedback photo">
+                    </div>
+
+                    <!-- Written cue -->
+                    <div id="cue-container" class="hidden">
+                        <div class="text-xs uppercase tracking-widest text-zinc-500 mb-3">WRITTEN CUE</div>
+                        <div id="modal-cue" 
+                             class="bg-black p-8 rounded-3xl text-lg leading-relaxed border-l-4 border-yellow-400">
+                        </div>
+                    </div>
+                    
+                    <div class="text-center pt-6 border-t border-zinc-800">
+                        <button onclick="closeModal()" 
+                                class="text-zinc-400 hover:text-white transition-colors text-sm flex items-center gap-2 mx-auto">
+                            <i class="fa-solid fa-arrow-left"></i>
+                            RETURN TO LIST
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-black py-12 border-t border-zinc-800">
+        <div class="max-w-7xl mx-auto px-6 text-center text-xs text-zinc-500">
+            <div class="flex justify-center gap-8 mb-6">
+                <a href="#" class="hover:text-yellow-400 transition-colors">PROTOCOL</a>
+                <a href="#" class="hover:text-yellow-400 transition-colors">ETHICS</a>
+                <a href="#" class="hover:text-yellow-400 transition-colors">RESOURCES</a>
+            </div>
+            <div>© 2026 AETHERVIEW • DEMO WEBSITE FOR ILLUSTRATIVE PURPOSES</div>
+            <div class="mt-2">All target photos are placeholder images from Picsum. Real deployment would use verified RV feedback images.</div>
+        </div>
+    </footer>
+
+    <script>
+        // Tailwind script run
+        function initializeTailwind() {
+            // No extra config needed for this demo
+        }
+
+        // Sample targets using "xxxx-xxxx" format as requested
+        const allTargets = {
+            practice: [
+                {
+                    id: "0001-ABCD",
+                    photo: "https://picsum.photos/id/1015/1200/800",
+                    cue: "A serene alpine lake reflecting snow-capped peaks at sunrise"
+                },
+                {
+                    id: "0002-EFGH",
+                    photo: "https://picsum.photos/id/201/1200/800",
+                    cue: null
+                },
+                {
+                    id: "0003-IJKL",
+                    photo: null,
+                    cue: "An old wooden lighthouse on a rocky coastline during a storm"
+                },
+                {
+                    id: "0004-MNOP",
+                    photo: "https://picsum.photos/id/29/1200/800",
+                    cue: "A bustling night market filled with colorful lanterns"
+                }
+            ],
+            assorted: [
+                {
+                    id: "1001-QRST",
+                    photo: "https://picsum.photos/id/160/1200/800",
+                    cue: "The Great Pyramid of Giza bathed in golden sunlight at noon"
+                },
+                {
+                    id: "1002-UVWX",
+                    photo: null,
+                    cue: "A crystal city floating above the clouds in a distant future"
+                },
+                {
+                    id: "1003-YZAB",
+                    photo: "https://picsum.photos/id/1016/1200/800",
+                    cue: "The interior of an ancient Egyptian temple with hieroglyphs glowing"
+                },
+                {
+                    id: "1004-CDEF",
+                    photo: "https://picsum.photos/id/870/1200/800",
+                    cue: null
+                }
+            ]
+        };
+
+        // Global current target
+        let currentTarget = null;
+
+        function populateLists() {
+            // Practice list
+            const practiceContainer = document.getElementById('practice-list');
+            practiceContainer.innerHTML = '';
+            
+            allTargets.practice.forEach((target, index) => {
+                const div = document.createElement('div');
+                div.className = 'group bg-zinc-900 border border-zinc-800 hover:border-yellow-400 rounded-3xl p-6 cursor-pointer transition-all';
+                div.innerHTML = `
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="text-xs font-medium px-4 py-1 bg-zinc-800 rounded-3xl">${(index + 1).toString().padStart(2, '0')}</div>
+                        <div onclick="event.stopImmediatePropagation(); openTarget('${target.id}')" 
+                             class="target-id text-3xl font-bold text-yellow-400 hover:text-white transition-colors">
+                            ${target.id}
+                        </div>
+                    </div>
+                    <div class="text-xs text-zinc-500">CLICK ID TO VIEW DEDICATED TARGET PAGE</div>
+                `;
+                div.onclick = () => openTarget(target.id);
+                practiceContainer.appendChild(div);
+            });
+
+            // Assorted list
+            const assortedContainer = document.getElementById('assorted-list');
+            assortedContainer.innerHTML = '';
+            
+            allTargets.assorted.forEach((target, index) => {
+                const div = document.createElement('div');
+                div.className = 'group bg-zinc-900 border border-zinc-800 hover:border-purple-400 rounded-3xl p-6 cursor-pointer transition-all';
+                div.innerHTML = `
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="text-xs font-medium px-4 py-1 bg-zinc-800 rounded-3xl">${(index + 1).toString().padStart(2, '0')}</div>
+                        <div onclick="event.stopImmediatePropagation(); openTarget('${target.id}')" 
+                             class="target-id text-3xl font-bold text-purple-400 hover:text-white transition-colors">
+                            ${target.id}
+                        </div>
+                    </div>
+                    <div class="text-xs text-zinc-500">CLICK ID TO VIEW DEDICATED TARGET PAGE</div>
+                `;
+                div.onclick = () => openTarget(target.id);
+                assortedContainer.appendChild(div);
+            });
+        }
+
+        function openTarget(id) {
+            // Find target in either list
+            let target = allTargets.practice.find(t => t.id === id);
+            if (!target) target = allTargets.assorted.find(t => t.id === id);
+            
+            if (!target) return;
+            
+            currentTarget = target;
+            
+            // Populate modal
+            document.getElementById('modal-target-id').textContent = target.id;
+            
+            // Reset feedback area
+            const feedbackArea = document.getElementById('feedback-area');
+            feedbackArea.classList.add('hidden');
+            
+            document.getElementById('reveal-button').classList.remove('hidden');
+            
+            // Clear previous content
+            document.getElementById('photo-container').classList.add('hidden');
+            document.getElementById('cue-container').classList.add('hidden');
+            
+            // Show modal
+            document.getElementById('target-modal').classList.remove('hidden');
+            document.getElementById('target-modal').classList.add('flex');
+        }
+
+        function revealFeedback() {
+            if (!currentTarget) return;
+            
+            const feedbackArea = document.getElementById('feedback-area');
+            const revealBtn = document.getElementById('reveal-button');
+            
+            feedbackArea.classList.remove('hidden');
+            revealBtn.classList.add('hidden');
+            
+            // Handle photo
+            const photoContainer = document.getElementById('photo-container');
+            const photoImg = document.getElementById('modal-photo');
+            
+            if (currentTarget.photo) {
+                photoImg.src = currentTarget.photo;
+                photoContainer.classList.remove('hidden');
+            } else {
+                photoContainer.classList.add('hidden');
+            }
+            
+            // Handle cue
+            const cueContainer = document.getElementById('cue-container');
+            const cueText = document.getElementById('modal-cue');
+            
+            if (currentTarget.cue) {
+                cueText.textContent = currentTarget.cue;
+                cueContainer.classList.remove('hidden');
+            } else {
+                cueContainer.classList.add('hidden');
+            }
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('target-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function navigateTo(page) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(p => {
+                p.classList.add('hidden');
+            });
+            
+            // Show requested
+            if (page === 'home') {
+                document.getElementById('home-page').classList.remove('hidden');
+            } else if (page === 'practice') {
+                document.getElementById('practice-page').classList.remove('hidden');
+            } else if (page === 'assorted') {
+                document.getElementById('assorted-page').classList.remove('hidden');
+            }
+            
+            // Update active nav link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active', 'text-yellow-400');
+                if ((page === 'home' && link.textContent.includes('HOME')) ||
+                    (page === 'practice' && link.textContent.includes('PRACTICE')) ||
+                    (page === 'assorted' && link.textContent.includes('ASSORTED'))) {
+                    link.classList.add('active', 'text-yellow-400');
+                }
+            });
+        }
+
+        // Keyboard escape support
+        document.addEventListener('keydown', function(e) {
+            if (e.key === "Escape") {
+                const modal = document.getElementById('target-modal');
+                if (!modal.classList.contains('hidden')) {
+                    closeModal();
+                }
+            }
+        });
+
+        // Initialize everything
+        window.onload = function() {
+            initializeTailwind();
+            populateLists();
+            
+            // Start on home
+            navigateTo('home');
+            
+            // Clicking anywhere on modal background closes it
+            const modal = document.getElementById('target-modal');
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+            
+            console.log('%c✅ AetherView demo website ready. All target IDs use the requested xxxx-xxxx format.', 
+                        'color:#facc15; font-family:monospace');
+        };
+    </script>
+</body>
+</html>
