@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RV Targets • Target Viewer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="targets-data.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+        body { font-family: 'Inter', system_ui, sans-serif; }
+        .logo-font { font-family: 'Space Grotesk', sans-serif; }
+        .feedback-container { display: none; }
+    </style>
+</head>
+<body class="bg-zinc-950 text-zinc-200 min-h-screen">
+    <!-- NAVBAR -->
+    <nav class="border-b border-zinc-800 bg-zinc-950">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+            <div class="flex items-center gap-x-3">
+                <div class="w-9 h-9 bg-violet-600 rounded-2xl flex items-center justify-center text-white font-bold text-2xl logo-font">RV</div>
+                <h1 class="logo-font text-3xl tracking-tighter font-semibold text-white">RV Targets</h1>
+            </div>
+            <a href="index.html" class="text-sm hover:text-violet-400">← Home</a>
+        </div>
+    </nav>
+
+    <div class="max-w-4xl mx-auto px-6 py-16">
+        <div id="target-header" class="mb-12 text-center">
+            <!-- JS populated -->
+        </div>
+
+        <div class="bg-zinc-900 border border-zinc-700 rounded-3xl p-10">
+            <div class="text-center mb-10">
+                <div class="inline-flex items-center gap-x-3 bg-zinc-800 px-6 py-3 rounded-3xl">
+                    <span class="text-emerald-400 text-xs font-medium tracking-widest">SEALED TARGET</span>
+                </div>
+            </div>
+
+            <div id="session-warning" class="bg-zinc-950 border border-dashed border-zinc-700 rounded-2xl p-8 text-center mb-10">
+                <p class="text-zinc-400 max-w-md mx-auto">
+                    Perform your remote viewing session first.<br>
+                    Only reveal feedback when you are ready.
+                </p>
+            </div>
+
+            <button onclick="revealFeedback()" 
+                    id="reveal-button"
+                    class="w-full py-6 bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white font-semibold text-xl rounded-3xl transition-all active:scale-95">
+                    REVEAL FEEDBACK
+            </button>
+
+            <!-- FEEDBACK CONTAINER -->
+            <div id="feedback" class="feedback-container mt-12 border-t border-zinc-700 pt-12">
+                <div class="text-xs uppercase tracking-widest text-zinc-500 mb-6">OFFICIAL FEEDBACK</div>
+                
+                <div id="images-container" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                    <!-- images populated by JS -->
+                </div>
+                
+                <div id="cue-container" class="bg-zinc-950 border border-zinc-800 rounded-3xl p-8">
+                    <!-- cue populated by JS -->
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-12">
+            <a href="index.html" 
+               class="text-xs text-zinc-500 hover:text-zinc-400 flex items-center gap-x-2 justify-center">
+                ← RETURN TO ARCHIVE
+            </a>
+        </div>
+    </div>
+
+    <script>
+        let currentTarget = null;
+        
+        function getTargetIdFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('id');
+        }
+        
+        function loadTarget() {
+            const id = getTargetIdFromUrl();
+            const data = window.remoteViewingTargets || {};
+            currentTarget = data[id];
+            
+            const header = document.getElementById('target-header');
+            
+            if (!currentTarget) {
+                header.innerHTML = `
+                    <div class="text-rose-400 text-2xl">Target not found</div>
+                    <p class="text-zinc-500 mt-4">ID may be invalid or has been removed.</p>
+                `;
+                return;
+            }
+            
+            header.innerHTML = `
+                <div class="inline-block bg-zinc-900 border border-violet-500 rounded-3xl px-8 py-4">
+                    <div class="flex items-center gap-x-4">
+                        <span class="text-xs uppercase tracking-widest text-violet-400">Target ID</span>
+                        <span class="font-mono text-5xl tracking-[4px] text-white">${id}</span>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function revealFeedback() {
+            if (!currentTarget) return;
+            
+            const feedbackDiv = document.getElementById('feedback');
+            const button = document.getElementById('reveal-button');
+            const warning = document.getElementById('session-warning');
+            
+            button.style.display = 'none';
+            warning.style.display = 'none';
+            feedbackDiv.style.display = 'block';
+            
+            // Render images
+            const imgContainer = document.getElementById('images-container');
+            imgContainer.innerHTML = '';
+            
+            if (currentTarget.images && currentTarget.images.length > 0) {
+                currentTarget.images.forEach(src => {
+                    const div = document.createElement('div');
+                    div.className = 'overflow-hidden rounded-3xl border border-zinc-700';
+                    div.innerHTML = `<img src="${src}" class="w-full h-auto block" alt="Target feedback photo">`;
+                    imgContainer.appendChild(div);
+                });
+            } else {
+                imgContainer.innerHTML = `
+                    <div class="col-span-full text-center py-12 text-zinc-500">
+                        No photographic feedback available for this target
+                    </div>
+                `;
+            }
+            
+            // Render cue
+            const cueContainer = document.getElementById('cue-container');
+            if (currentTarget.cue && currentTarget.cue.trim() !== '') {
+                cueContainer.innerHTML = `
+                    <div class="text-sm leading-relaxed text-zinc-300">${currentTarget.cue}</div>
+                    <div class="mt-8 text-[10px] text-zinc-600">— Official Remote Viewing Feedback —</div>
+                `;
+            } else {
+                cueContainer.innerHTML = `
+                    <div class="text-zinc-500 text-center py-8">No written cue available for this target.</div>
+                `;
+            }
+        }
+        
+        window.onload = loadTarget;
+    </script>
+</body>
+</html>
