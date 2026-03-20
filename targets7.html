@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RV Targets • Remote Viewing Archive</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+        
+        :root {
+            --primary: 234 179 8;
+        }
+        
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .logo-font {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .target-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .target-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        .reveal-btn {
+            background: linear-gradient(90deg, #eab308, #f59e0b);
+        }
+
+        .page {
+            display: none;
+        }
+        
+        .page-active {
+            display: block;
+        }
+
+        .modal {
+            animation: fadeInScale 0.3s ease forwards;
+        }
+        
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .feedback-content {
+            animation: revealAnim 0.6s ease forwards;
+        }
+        
+        @keyframes revealAnim {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: rgb(234 179 8);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="bg-zinc-950 text-zinc-200 min-h-screen flex flex-col">
+    <!-- NAVBAR -->
+    <nav class="bg-black border-b border-zinc-800 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+            <div onclick="showPage('home')" class="flex items-center gap-x-3 cursor-pointer">
+                <div class="w-9 h-9 bg-yellow-500 rounded-2xl flex items-center justify-center text-black font-bold text-2xl logo-font">RV</div>
+                <div>
+                    <span class="logo-font text-3xl font-semibold tracking-tighter text-white">RV TARGETS</span>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-x-8 text-sm font-medium">
+                <a onclick="showPage('home')" class="nav-link cursor-pointer hover:text-yellow-400 transition-colors">HOME</a>
+                <a onclick="showPage('practice')" class="nav-link cursor-pointer hover:text-yellow-400 transition-colors">PRACTICE</a>
+                <a onclick="showPage('assorted')" class="nav-link cursor-pointer hover:text-yellow-400 transition-colors">ASSORTED</a>
+            </div>
+            
+            <div class="flex items-center gap-x-4">
+                <div class="px-5 py-2 bg-zinc-900 text-xs font-mono tracking-widest border border-yellow-500/30 rounded-3xl text-yellow-400">
+                    ARCHIVE v1.0
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-1">
+        <!-- HOME PAGE -->
+        <div id="home" class="page page-active">
+            <div class="max-w-5xl mx-auto px-6 py-20">
+                <div class="text-center mb-16">
+                    <div class="inline-flex items-center gap-x-2 bg-zinc-900 border border-yellow-500/20 rounded-3xl px-6 py-2 text-sm font-medium mb-6">
+                        <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                        REMOTE VIEWING TARGET ARCHIVE
+                    </div>
+                    
+                    <h1 class="logo-font text-7xl font-bold tracking-tighter text-white mb-6 leading-none">
+                        TARGETS FOR<br>THE MIND'S EYE
+                    </h1>
+                    <p class="max-w-xl mx-auto text-xl text-zinc-400">
+                        A curated collection of remote viewing targets.<br>
+                        Practice with everyday scenes. Explore the esoteric.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <!-- Practice Card -->
+                    <div onclick="showPage('practice')" 
+                         class="target-card bg-zinc-900 border border-zinc-800 hover:border-yellow-500/50 rounded-3xl p-10 cursor-pointer group">
+                        <div class="flex justify-between items-start mb-8">
+                            <div>
+                                <div class="uppercase text-emerald-400 text-xs font-medium tracking-widest">Beginner Friendly</div>
+                                <div class="text-4xl font-semibold text-white mt-2">Practice Targets</div>
+                            </div>
+                            <div class="w-12 h-12 bg-emerald-500/10 rounded-2xl flex items-center justify-center text-4xl group-hover:rotate-12 transition-transform">📍</div>
+                        </div>
+                        <p class="text-zinc-400 text-lg leading-relaxed">
+                            Mundane, everyday targets perfect for skill building. 
+                            5 hand-picked scenes with clear feedback.
+                        </p>
+                        <div class="mt-10 flex items-center gap-x-3 text-emerald-400 text-sm font-medium">
+                            START TRAINING 
+                            <span class="text-2xl">→</span>
+                        </div>
+                    </div>
+
+                    <!-- Assorted Card -->
+                    <div onclick="showPage('assorted')" 
+                         class="target-card bg-zinc-900 border border-zinc-800 hover:border-purple-500/50 rounded-3xl p-10 cursor-pointer group">
+                        <div class="flex justify-between items-start mb-8">
+                            <div>
+                                <div class="uppercase text-purple-400 text-xs font-medium tracking-widest">Advanced • Esoteric</div>
+                                <div class="text-4xl font-semibold text-white mt-2">Assorted Targets</div>
+                            </div>
+                            <div class="w-12 h-12 bg-purple-500/10 rounded-2xl flex items-center justify-center text-4xl group-hover:-rotate-12 transition-transform">🌌</div>
+                        </div>
+                        <p class="text-zinc-400 text-lg leading-relaxed">
+                            From the ordinary to the extraordinary. 
+                            Historical, celestial, and metaphysical targets.
+                        </p>
+                        <div class="mt-10 flex items-center gap-x-3 text-purple-400 text-sm font-medium">
+                            EXPLORE THE UNKNOWN 
+                            <span class="text-2xl">→</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-20 text-center">
+                    <div class="inline-flex items-center gap-x-8 text-xs font-mono text-zinc-500">
+                        <div>5 PRACTICE TARGETS</div>
+                        <div class="w-px h-3 bg-zinc-700"></div>
+                        <div>5 ASSORTED TARGETS</div>
+                        <div class="w-px h-3 bg-zinc-700"></div>
+                        <div>CLICK ID TO VIEW</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PRACTICE PAGE -->
+        <div id="practice" class="page">
+            <div class="max-w-4xl mx-auto px-6 py-12">
+                <div class="flex items-center justify-between mb-10">
+                    <div>
+                        <span class="px-4 py-1.5 bg-emerald-500/10 text-emerald-400 text-xs font-medium rounded-3xl">PRACTICE MODE</span>
+                        <h2 class="text-5xl font-semibold tracking-tight mt-4">Practice Targets</h2>
+                        <p class="text-zinc-400 mt-3">Everyday scenes for building remote viewing accuracy</p>
+                    </div>
+                    <button onclick="showPage('home')" 
+                            class="flex items-center gap-x-2 text-zinc-400 hover:text-white transition-colors">
+                        ← BACK TO HOME
+                    </button>
+                </div>
+
+                <div class="bg-zinc-900 rounded-3xl p-8 border border-zinc-800">
+                    <div class="flex items-center gap-x-2 text-xs uppercase tracking-widest text-zinc-500 mb-6">
+                        <div class="flex-1 h-px bg-zinc-800"></div>
+                        ENUMERATED TARGET LIST
+                        <div class="flex-1 h-px bg-zinc-800"></div>
+                    </div>
+                    
+                    <ol id="practice-list" class="space-y-6 text-xl">
+                        <!-- Populated by JS -->
+                    </ol>
+                </div>
+
+                <p class="text-center text-zinc-500 text-sm mt-8 font-mono">
+                    Click any Target ID to open dedicated viewing page
+                </p>
+            </div>
+        </div>
+
+        <!-- ASSORTED PAGE -->
+        <div id="assorted" class="page">
+            <div class="max-w-4xl mx-auto px-6 py-12">
+                <div class="flex items-center justify-between mb-10">
+                    <div>
+                        <span class="px-4 py-1.5 bg-purple-500/10 text-purple-400 text-xs font-medium rounded-3xl">ADVANCED ARCHIVE</span>
+                        <h2 class="text-5xl font-semibold tracking-tight mt-4">Assorted Targets</h2>
+                    </div>
+                    <button onclick="showPage('home')" 
+                            class="flex items-center gap-x-2 text-zinc-400 hover:text-white transition-colors">
+                        ← BACK TO HOME
+                    </button>
+                </div>
+
+                <!-- DISCLAIMER -->
+                <div class="bg-amber-950 border border-amber-500/30 rounded-3xl p-8 mb-10">
+                    <div class="flex gap-x-4">
+                        <div class="text-4xl">⚠️</div>
+                        <div>
+                            <div class="uppercase text-amber-400 text-xs font-semibold tracking-widest mb-2">IMPORTANT DISCLAIMER</div>
+                            <p class="text-amber-200 leading-relaxed">
+                                These targets range from mundane everyday scenes to highly esoteric, 
+                                abstract, historical, celestial, and metaphysical subjects. 
+                                Some targets may challenge conventional perception. 
+                                Use only for legitimate remote viewing practice.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-zinc-900 rounded-3xl p-8 border border-zinc-800">
+                    <div class="flex items-center gap-x-2 text-xs uppercase tracking-widest text-zinc-500 mb-6">
+                        <div class="flex-1 h-px bg-zinc-800"></div>
+                        ENUMERATED TARGET LIST
+                        <div class="flex-1 h-px bg-zinc-800"></div>
+                    </div>
+                    
+                    <ol id="assorted-list" class="space-y-6 text-xl">
+                        <!-- Populated by JS -->
+                    </ol>
+                </div>
+
+                <p class="text-center text-zinc-500 text-sm mt-8 font-mono">
+                    Click any Target ID to open dedicated viewing page
+                </p>
+            </div>
+        </div>
+
+        <!-- TARGET DEDICATED PAGE (Modal-style full takeover) -->
+        <div id="target-page" class="page hidden fixed inset-0 bg-black/95 z-50 overflow-auto">
+            <div class="max-w-4xl mx-auto px-6 py-12 modal">
+                <!-- Back button -->
+                <button onclick="goBack()" 
+                        class="flex items-center gap-x-3 text-zinc-400 hover:text-white mb-8 group transition-colors">
+                    <span class="text-2xl group-hover:-translate-x-1 transition-transform">←</span>
+                    <span class="uppercase text-xs tracking-widest font-medium">Return to list</span>
+                </button>
+
+                <div class="bg-zinc-900 border border-zinc-700 rounded-3xl overflow-hidden">
+                    <!-- Header -->
+                    <div class="px-10 pt-10 pb-8 border-b border-zinc-700">
+                        <div class="flex items-center gap-x-4">
+                            <span class="px-5 py-2 text-xs font-mono bg-zinc-800 text-yellow-400 rounded-3xl">TARGET ID</span>
+                            <div id="target-id-display" 
+                                 class="font-mono text-6xl font-bold text-white tracking-[4px] logo-font">
+                                <!-- JS injected -->
+                            </div>
+                        </div>
+                        <p class="text-zinc-400 mt-6 max-w-md">
+                            Perform your remote viewing session first.<br>
+                            Only reveal feedback when ready.
+                        </p>
+                    </div>
+
+                    <!-- Reveal Area -->
+                    <div class="p-10">
+                        <button onclick="revealFeedback()" 
+                                id="reveal-button"
+                                class="reveal-btn w-full py-6 text-black font-semibold text-2xl rounded-2xl flex items-center justify-center gap-x-4 hover:scale-105 active:scale-95 transition-all shadow-xl shadow-yellow-500/30">
+                            <span>REVEAL FEEDBACK</span>
+                            <span class="text-4xl">👁️</span>
+                        </button>
+
+                        <!-- Feedback Content (hidden initially) -->
+                        <div id="feedback-content" class="hidden mt-12 feedback-content">
+                            <div class="border-t border-zinc-700 pt-10">
+                                <h3 class="uppercase text-xs font-medium text-zinc-400 mb-4 tracking-widest">OFFICIAL FEEDBACK</h3>
+                                
+                                <!-- Cue -->
+                                <div id="feedback-cue" class="text-zinc-100 text-2xl leading-relaxed prose prose-invert max-w-none">
+                                    <!-- JS injected -->
+                                </div>
+
+                                <!-- Photos -->
+                                <div id="feedback-photos" class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <!-- JS injected images -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-8">
+                    <div onclick="goBack()" 
+                         class="inline-flex text-xs items-center gap-x-2 text-zinc-500 hover:text-zinc-400 cursor-pointer">
+                        <span>RETURN TO TARGET LIST</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-black border-t border-zinc-900 py-8 text-center text-xs text-zinc-600 font-mono">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-y-4">
+            <div>© 2026 Remote Viewing Targets Archive • For practice only</div>
+            <div class="flex gap-x-6">
+                <div>Privacy</div>
+                <div>Protocol</div>
+                <div>Contact</div>
+            </div>
+            <div>Made for the curious mind</div>
+        </div>
+    </footer>
+
+    <script>
+        // Tailwind script run
+        function initializeTailwind() {
+            // CDN already active
+        }
+
+        // DATA
+        const practiceTargets = [
+            {
+                id: "PRAC-0001",
+                photos: ["https://picsum.photos/id/29/1200/800"],
+                cue: "A bright red apple resting on a wooden table in natural daylight."
+            },
+            {
+                id: "PRAC-0002",
+                photos: ["https://picsum.photos/id/101/1200/800"],
+                cue: "The Eiffel Tower in Paris at golden hour with people walking below."
+            },
+            {
+                id: "PRAC-0003",
+                photos: ["https://picsum.photos/id/201/1200/800"],
+                cue: "A tabby cat curled up asleep on a sunlit windowsill."
+            },
+            {
+                id: "PRAC-0004",
+                photos: ["https://picsum.photos/id/160/1200/800"],
+                cue: "A classic red sports car parked on a winding mountain road."
+            },
+            {
+                id: "PRAC-0005",
+                photos: ["https://picsum.photos/id/251/1200/800"],
+                cue: "A tropical beach with white sand, turquoise water, and swaying palm trees."
+            }
+        ];
+
+        const assortedTargets = [
+            {
+                id: "ASSO-0001",
+                photos: ["https://picsum.photos/id/1015/1200/800"],
+                cue: "The Great Pyramid of Giza standing under a clear blue sky at sunrise."
+            },
+            {
+                id: "ASSO-0002",
+                photos: ["https://picsum.photos/id/870/1200/800"],
+                cue: "The rusty, rocky surface of Mars as captured by a rover in Jezero Crater."
+            },
+            {
+                id: "ASSO-0003",
+                photos: [],
+                cue: "The interior of an ancient Egyptian pharaoh's tomb from ~2500 BC — golden sarcophagus, hieroglyph-covered walls, and flickering torchlight."
+            },
+            {
+                id: "ASSO-0004",
+                photos: [
+                    "https://picsum.photos/id/30/1200/800",
+                    "https://picsum.photos/id/40/1200/800"
+                ],
+                cue: "A large glowing quartz crystal ball resting on black velvet in a candle-lit Victorian room."
+            },
+            {
+                id: "ASSO-0005",
+                photos: ["https://picsum.photos/id/1016/1200/800"],
+                cue: "The swirling accretion disk and event horizon of a supermassive black hole in deep space."
+            }
+        ];
+
+        // Combined for quick lookup
+        let allTargets = [...practiceTargets, ...assortedTargets];
+        let currentTargetId = null;
+        let currentOrigin = null;
+
+        // Render lists
+        function renderPracticeList() {
+            const container = document.getElementById("practice-list");
+            let html = "";
+            
+            practiceTargets.forEach((target, index) => {
+                html += `
+                    <li onclick="showTarget('${target.id}')" 
+                        class="flex items-center justify-between group cursor-pointer bg-zinc-950 hover:bg-zinc-900 border border-transparent hover:border-yellow-500/30 rounded-2xl px-8 py-6 transition-all">
+                        <div class="flex items-center gap-x-8">
+                            <span class="font-mono text-3xl text-yellow-400 font-light">${String(index + 1).padStart(2, '0')}</span>
+                            <span class="font-mono text-4xl text-white group-hover:text-yellow-300 transition-colors">${target.id}</span>
+                        </div>
+                        <span class="text-emerald-400 text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">VIEW →</span>
+                    </li>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        function renderAssortedList() {
+            const container = document.getElementById("assorted-list");
+            let html = "";
+            
+            assortedTargets.forEach((target, index) => {
+                html += `
+                    <li onclick="showTarget('${target.id}')" 
+                        class="flex items-center justify-between group cursor-pointer bg-zinc-950 hover:bg-zinc-900 border border-transparent hover:border-purple-500/30 rounded-2xl px-8 py-6 transition-all">
+                        <div class="flex items-center gap-x-8">
+                            <span class="font-mono text-3xl text-purple-400 font-light">${String(index + 1).padStart(2, '0')}</span>
+                            <span class="font-mono text-4xl text-white group-hover:text-purple-300 transition-colors">${target.id}</span>
+                        </div>
+                        <span class="text-purple-400 text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">VIEW →</span>
+                    </li>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // Show a specific page
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('page-active');
+                page.classList.add('hidden');
+            });
+            
+            // Show requested
+            const page = document.getElementById(pageId);
+            if (page) {
+                page.classList.remove('hidden');
+                page.classList.add('page-active');
+            }
+            
+            // Close target page if open
+            if (pageId !== 'target-page') {
+                document.getElementById('target-page').classList.add('hidden');
+            }
+        }
+
+        // Show target detail
+        function showTarget(targetId) {
+            currentTargetId = targetId;
+            
+            // Determine origin for back button
+            if (targetId.startsWith("PRAC")) {
+                currentOrigin = "practice";
+            } else {
+                currentOrigin = "assorted";
+            }
+            
+            const target = allTargets.find(t => t.id === targetId);
+            if (!target) return;
+            
+            // Populate header
+            document.getElementById("target-id-display").textContent = target.id;
+            
+            // Reset feedback
+            const feedbackContent = document.getElementById("feedback-content");
+            feedbackContent.classList.add("hidden");
+            
+            const revealBtn = document.getElementById("reveal-button");
+            revealBtn.style.display = "flex";
+            
+            // Clear previous photos and cue
+            document.getElementById("feedback-cue").innerHTML = "";
+            document.getElementById("feedback-photos").innerHTML = "";
+            
+            // Pre-populate cue and photos (but keep hidden)
+            const cueEl = document.getElementById("feedback-cue");
+            if (target.cue) {
+                cueEl.innerHTML = `<p>${target.cue}</p>`;
+            }
+            
+            const photosContainer = document.getElementById("feedback-photos");
+            if (target.photos && target.photos.length > 0) {
+                target.photos.forEach((photoUrl, i) => {
+                    const img = document.createElement("img");
+                    img.src = photoUrl;
+                    img.alt = `Target photo ${i+1}`;
+                    img.className = "rounded-3xl shadow-2xl w-full object-cover aspect-video border border-zinc-700";
+                    photosContainer.appendChild(img);
+                });
+            } else {
+                // No photos message
+                const noPhoto = document.createElement("div");
+                noPhoto.className = "col-span-full bg-zinc-950 border border-dashed border-zinc-700 rounded-3xl p-12 text-center";
+                noPhoto.innerHTML = `
+                    <div class="mx-auto w-16 h-16 bg-zinc-800 rounded-2xl flex items-center justify-center text-4xl mb-6">📜</div>
+                    <p class="text-zinc-400">This target is cue-only (esoteric/abstract).</p>
+                `;
+                photosContainer.appendChild(noPhoto);
+            }
+            
+            // Show target page
+            document.getElementById("target-page").classList.remove("hidden");
+            document.getElementById("target-page").classList.add("page-active");
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Reveal feedback
+        function revealFeedback() {
+            const content = document.getElementById("feedback-content");
+            content.classList.remove("hidden");
+            
+            // Hide reveal button
+            const btn = document.getElementById("reveal-button");
+            btn.style.display = "none";
+        }
+
+        // Go back to originating list
+        function goBack() {
+            document.getElementById("target-page").classList.add("hidden");
+            document.getElementById("target-page").classList.remove("page-active");
+            
+            if (currentOrigin === "practice") {
+                showPage("practice");
+            } else if (currentOrigin === "assorted") {
+                showPage("assorted");
+            } else {
+                showPage("home");
+            }
+        }
+
+        // Keyboard support
+        function handleKeyboard(e) {
+            if (e.key === "Escape") {
+                const targetPage = document.getElementById("target-page");
+                if (!targetPage.classList.contains("hidden")) {
+                    goBack();
+                }
+            }
+        }
+
+        // Initialize everything
+        function initializeSite() {
+            // Render both lists
+            renderPracticeList();
+            renderAssortedList();
+            
+            // Show home by default
+            showPage("home");
+            
+            // Keyboard listener
+            document.addEventListener("keydown", handleKeyboard);
+            
+            // Tailwind ready
+            console.log('%cRV Targets website ready. Enjoy your sessions.', 'color:#eab308; font-family:monospace');
+        }
+
+        // Boot the site
+        window.onload = initializeSite;
+    </script>
+</body>
+</html>
