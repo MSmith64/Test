@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remote Viewing Targets</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        .title-font {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .target-link {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .target-link:hover {
+            transform: translateX(8px);
+            color: #fff;
+        }
+        .reveal-btn {
+            transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+        .reveal-btn:hover {
+            box-shadow: 0 0 30px -5px rgb(163 163 163);
+        }
+    </style>
+</head>
+<body class="bg-zinc-950 text-zinc-200 min-h-screen">
+    <!-- NAVBAR -->
+    <nav class="border-b border-zinc-800 bg-zinc-950 sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-6 py-5 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-white flex items-center justify-center rounded-full">
+                    <span class="text-zinc-950 text-2xl leading-none mt-0.5">⟡</span>
+                </div>
+                <a href="index.html" class="title-font text-2xl font-semibold tracking-tighter text-white">RV TARGETS</a>
+            </div>
+            <div class="flex gap-8 text-sm font-medium">
+                <a href="practice.html" class="hover:text-white transition-colors">Practice</a>
+                <a href="assorted.html" class="hover:text-white transition-colors">Assorted</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="max-w-5xl mx-auto px-6 pt-20 pb-16 text-center">
+        <div class="inline-flex items-center gap-2 bg-zinc-900 text-xs tracking-[0.125em] px-6 py-3 rounded-full border border-zinc-800 mb-6">
+            REMOTE VIEWING ARCHIVE
+        </div>
+        <h1 class="title-font text-6xl md:text-7xl font-semibold tracking-tighter text-white mb-4">
+            SEE THE UNSEEN
+        </h1>
+        <p class="max-w-md mx-auto text-zinc-400 text-lg">
+            Curated remote viewing targets for practice and exploration.<br>
+            Feedback revealed only when you are ready.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center mt-12">
+            <a href="practice.html" 
+               class="inline-flex items-center justify-center bg-white text-zinc-950 font-semibold px-8 py-4 rounded-2xl hover:bg-zinc-100 transition-all text-base">
+                START PRACTICE
+            </a>
+            <a href="assorted.html" 
+               class="inline-flex items-center justify-center border border-zinc-700 hover:border-zinc-400 font-medium px-8 py-4 rounded-2xl transition-all text-base">
+                EXPLORE ASSORTED
+            </a>
+        </div>
+    </header>
+
+    <!-- QUICK LINKS -->
+    <div class="max-w-5xl mx-auto px-6 pb-20">
+        <div class="grid md:grid-cols-2 gap-8">
+            <!-- Practice card -->
+            <a href="practice.html" 
+               class="group bg-zinc-900 border border-zinc-800 rounded-3xl p-8 hover:border-zinc-600 transition-all">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <span class="text-emerald-400 text-xs tracking-widest font-medium">LEVEL 1</span>
+                        <h2 class="title-font text-4xl font-semibold text-white mt-2">Practice Targets</h2>
+                    </div>
+                    <span class="text-5xl text-zinc-700 group-hover:text-emerald-400 transition-colors">01</span>
+                </div>
+                <p class="text-zinc-400">Simple, clear targets for beginners. Immediate feedback after each session.</p>
+                <div class="mt-8 text-emerald-400 text-sm font-medium flex items-center gap-2">
+                    BEGIN TRAINING →
+                </div>
+            </a>
+
+            <!-- Assorted card -->
+            <a href="assorted.html" 
+               class="group bg-zinc-900 border border-zinc-800 rounded-3xl p-8 hover:border-zinc-600 transition-all">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <span class="text-amber-400 text-xs tracking-widest font-medium">LEVEL ∞</span>
+                        <h2 class="title-font text-4xl font-semibold text-white mt-2">Assorted Targets</h2>
+                    </div>
+                    <span class="text-5xl text-zinc-700 group-hover:text-amber-400 transition-colors">02</span>
+                </div>
+                <p class="text-zinc-400">From mundane objects to highly esoteric and speculative targets.</p>
+                <div class="mt-8 text-amber-400 text-sm font-medium flex items-center gap-2">
+                    ENTER THE UNKNOWN →
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <footer class="border-t border-zinc-800 py-12 text-center text-xs text-zinc-500">
+        <div class="max-w-5xl mx-auto px-6">
+            Built as a minimalist training tool • All feedback is for educational remote viewing practice only
+        </div>
+    </footer>
+
+    <script>
+        // Tailwind script already loaded via CDN
+    </script>
+</body>
+</html>
