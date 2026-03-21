@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Target Viewer • RV Targets</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+        body { font-family: 'Inter', system_ui, sans-serif; }
+        .title-font { font-family: 'Space Grotesk', sans-serif; }
+        .feedback-container {
+            animation: fadeInUp 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-zinc-950 text-zinc-200 min-h-screen">
+    <!-- NAVBAR -->
+    <nav class="border-b border-zinc-800 bg-zinc-950 sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-6 py-5 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-white flex items-center justify-center rounded-full">
+                    <span class="text-zinc-950 text-2xl leading-none mt-0.5">⟡</span>
+                </div>
+                <span class="title-font text-2xl font-semibold tracking-tighter">RV TARGETS</span>
+            </a>
+            <a href="javascript:history.back()" 
+               class="flex items-center gap-2 text-sm font-medium text-zinc-400 hover:text-white transition-colors">
+                ← BACK TO LIST
+            </a>
+        </div>
+    </nav>
+
+    <div class="max-w-4xl mx-auto px-6 py-16">
+        <div id="target-header" class="text-center mb-16">
+            <div class="inline-flex items-center gap-3 bg-zinc-900 text-xs tracking-[0.125em] px-6 py-3 rounded-full border border-zinc-800 mb-6">
+                TARGET ID
+            </div>
+            <h1 id="target-id-display" 
+                class="title-font text-6xl font-semibold tracking-[-0.04em] text-white font-mono"></h1>
+        </div>
+
+        <div class="max-w-2xl mx-auto text-center">
+            <p class="text-zinc-400 mb-10 text-lg">
+                Focus on this coordinate for your remote viewing session.<br>
+                When you have completed your impressions, reveal the feedback below.
+            </p>
+
+            <button onclick="revealFeedback()" 
+                    id="reveal-button"
+                    class="reveal-btn bg-white hover:bg-zinc-100 text-zinc-950 font-semibold text-lg px-12 py-6 rounded-3xl flex items-center gap-4 mx-auto transition-all active:scale-95">
+                <span>REVEAL FEEDBACK</span>
+                <span class="text-2xl">↓</span>
+            </button>
+        </div>
+
+        <!-- FEEDBACK SECTION (hidden) -->
+        <div id="feedback-section" class="hidden mt-20 feedback-container">
+            <div class="border-t border-zinc-800 pt-12">
+                <h2 class="text-xs tracking-[0.125em] text-zinc-400 mb-8 text-center">FEEDBACK ARCHIVE</h2>
+                
+                <!-- Images -->
+                <div id="photo-container" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12"></div>
+
+                <!-- Cue -->
+                <div id="cue-container" class="bg-zinc-900 rounded-3xl p-8 border border-zinc-800">
+                    <div class="text-xs uppercase tracking-widest text-zinc-500 mb-3">Written Cue</div>
+                    <p id="cue-text" class="text-zinc-100 text-lg leading-relaxed"></p>
+                </div>
+
+                <div class="text-center mt-12">
+                    <button onclick="window.location.reload()" 
+                            class="text-xs text-zinc-500 hover:text-white transition-colors">
+                        CLOSE SESSION • RETURN TO TARGET
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="border-t border-zinc-800 py-8 text-center text-xs text-zinc-500">
+        Feedback is shown exactly as archived for training purposes
+    </footer>
+
+    <script>
+        // Tailwind ready
+        function getTargetData() {
+            return {
+                "PRAC-1001": {
+                    photos: ["https://picsum.photos/id/1015/1200/800"],
+                    cue: "Snow-capped mountain range at sunrise"
+                },
+                "PRAC-1002": {
+                    photos: ["https://picsum.photos/id/160/1200/800"],
+                    cue: "Vintage red sports car parked on a coastal road"
+                },
+                "PRAC-1003": {
+                    photos: [
+                        "https://picsum.photos/id/201/1200/800",
+                        "https://picsum.photos/id/202/1200/800"
+                    ],
+                    cue: "The Great Pyramid of Giza bathed in golden hour light"
+                },
+                "PRAC-1004": {
+                    photos: [],
+                    cue: "A three-masted wooden sailing ship from the Age of Sail"
+                },
+                "PRAC-1005": {
+                    photos: ["https://picsum.photos/id/29/1200/800"],
+                    cue: ""
+                },
+                "ASSO-2001": {
+                    photos: ["https://picsum.photos/id/30/1200/800"],
+                    cue: "A simple white coffee mug on a wooden kitchen counter"
+                },
+                "ASSO-2002": {
+                    photos: ["https://picsum.photos/id/251/1200/800"],
+                    cue: "An ancient stone circle under a starry night sky"
+                },
+                "ASSO-2003": {
+                    photos: [],
+                    cue: "A glowing mandala symbol representing the collective unconscious and infinity"
+                },
+                "ASSO-2004": {
+                    photos: ["https://picsum.photos/id/870/1200/800"],
+                    cue: "A complex crop circle formation in an English wheat field"
+                },
+                "ASSO-2005": {
+                    photos: [
+                        "https://picsum.photos/id/1016/1200/800",
+                        "https://picsum.photos/id/1018/1200/800"
+                    ],
+                    cue: "Surface features of the planet Mars as captured from low orbit"
+                }
+            };
+        }
+
+        function loadTarget() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const targetId = urlParams.get('id');
+            
+            if (!targetId) {
+                document.getElementById('target-id-display').textContent = "NO TARGET SELECTED";
+                document.getElementById('reveal-button').style.display = 'none';
+                return;
+            }
+
+            const data = getTargetData()[targetId];
+            if (!data) {
+                document.getElementById('target-id-display').textContent = "TARGET NOT FOUND";
+                document.getElementById('reveal-button').style.display = 'none';
+                return;
+            }
+
+            // Display ID
+            document.getElementById('target-id-display').textContent = targetId;
+
+            // Store data for reveal
+            window.currentTargetData = data;
+        }
+
+        function revealFeedback() {
+            const data = window.currentTargetData;
+            if (!data) return;
+
+            const feedbackSection = document.getElementById('feedback-section');
+            const revealButton = document.getElementById('reveal-button');
+            
+            // Photos
+            const photoContainer = document.getElementById('photo-container');
+            photoContainer.innerHTML = '';
+            
+            if (data.photos && data.photos.length > 0) {
+                data.photos.forEach(src => {
+                    const div = document.createElement('div');
+                    div.className = 'overflow-hidden rounded-3xl border border-zinc-800';
+                    div.innerHTML = `
+                        <img src="${src}" 
+                             class="w-full h-auto object-cover transition-transform hover:scale-105"
+                             alt="Target feedback image">
+                    `;
+                    photoContainer.appendChild(div);
+                });
+            } else {
+                photoContainer.innerHTML = `
+                    <div class="col-span-full bg-zinc-900 border border-zinc-800 rounded-3xl p-12 text-center">
+                        <p class="text-zinc-500">No photographic feedback available for this target</p>
+                    </div>
+                `;
+            }
+
+            // Cue
+            const cueContainer = document.getElementById('cue-container');
+            const cueText = document.getElementById('cue-text');
+            
+            if (data.cue && data.cue.trim() !== '') {
+                cueText.textContent = data.cue;
+                cueContainer.style.display = 'block';
+            } else {
+                cueContainer.style.display = 'none';
+            }
+
+            // Show feedback
+            feedbackSection.classList.remove('hidden');
+            revealButton.style.display = 'none';
+
+            // Smooth scroll to feedback
+            setTimeout(() => {
+                feedbackSection.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+        }
+
+        // Initialize
+        window.onload = loadTarget;
+    </script>
+</body>
+</html>
