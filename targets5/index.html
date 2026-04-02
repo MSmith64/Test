@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remote Viewing Targets</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
+        
+        :root {
+            --tw-color-primary: #111827;
+        }
+        
+        * {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .nav-link {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .nav-link:hover {
+            color: #111827;
+            background-color: #f3f4f6;
+        }
+        
+        .target-card {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .target-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        }
+        
+        .section {
+            animation: fadeIn 0.3s ease forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .feedback-content {
+            animation: reveal 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+    <!-- Top Navigation -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-screen-2xl mx-auto">
+            <div class="px-8 py-5 flex items-center justify-between">
+                <!-- Logo / Title -->
+                <div onclick="navigateTo('home')" class="flex items-center gap-x-3 cursor-pointer">
+                    <div class="w-9 h-9 bg-slate-900 rounded-xl flex items-center justify-center text-white text-xl font-semibold leading-none pt-0.5">RV</div>
+                    <div>
+                        <h1 class="text-2xl font-semibold tracking-tight">Remote Viewing Targets</h1>
+                        <p class="text-xs text-slate-500 -mt-1">Practice • Exploration</p>
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="flex items-center gap-x-2">
+                    <button onclick="navigateTo('home')" 
+                            class="nav-link px-6 py-2.5 text-sm font-medium rounded-2xl flex items-center gap-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1v-5m10-10l2 2m-2-2v10a1 1 0 01-1 1v-5m-6 0a1 1 0 001-1v5" />
+                        </svg>
+                        Home
+                    </button>
+                    
+                    <button onclick="navigateTo('practice')" 
+                            class="nav-link px-6 py-2.5 text-sm font-medium rounded-2xl flex items-center gap-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2v-2a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h10a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2" />
+                        </svg>
+                        Practice Targets
+                    </button>
+                    
+                    <button onclick="navigateTo('exploration')" 
+                            class="nav-link px-6 py-2.5 text-sm font-medium rounded-2xl flex items-center gap-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 01-14 0 7 7 0 0114 0z" />
+                        </svg>
+                        Exploration Targets
+                    </button>
+                </div>
+
+                <div class="text-xs font-mono text-slate-400 bg-slate-100 px-3 py-1.5 rounded-2xl">
+                    v1.0 • Barebones Edition
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-screen-2xl mx-auto px-8 py-8">
+        
+        <!-- HOME PAGE -->
+        <div id="home-page" class="section">
+            <div class="max-w-2xl mx-auto text-center pt-16 pb-12">
+                <div class="inline-flex items-center gap-x-2 bg-slate-900 text-white text-sm font-medium px-5 h-9 rounded-3xl mb-6">
+                    Remote Viewing Protocol
+                </div>
+                <h2 class="text-5xl font-semibold tracking-tighter mb-4">Select a target pool</h2>
+                <p class="text-slate-600 text-lg max-w-md mx-auto">Two distinct pools. Blind viewing. Instant feedback.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Practice Card -->
+                <div onclick="navigateTo('practice')" 
+                     class="group bg-white border border-slate-200 rounded-3xl p-8 hover:border-slate-400 cursor-pointer">
+                    <div class="flex justify-between items-start mb-8">
+                        <div>
+                            <span class="px-4 py-1 text-xs font-semibold bg-emerald-100 text-emerald-700 rounded-2xl">PRACTICE</span>
+                        </div>
+                        <div class="text-6xl font-mono font-semibold text-slate-200 group-hover:text-emerald-200 transition-colors">01</div>
+                    </div>
+                    <h3 class="text-3xl font-semibold mb-2">Practice Targets</h3>
+                    <p class="text-slate-600">Standard targets for training. Clear feedback. Build your skill.</p>
+                    <div class="mt-10 flex items-center justify-between text-sm">
+                        <div class="flex items-center gap-x-4">
+                            <div class="flex -space-x-4">
+                                <div class="w-8 h-8 bg-emerald-100 rounded-2xl flex items-center justify-center text-emerald-600 text-xs font-bold">P</div>
+                                <div class="w-8 h-8 bg-emerald-100 rounded-2xl flex items-center justify-center text-emerald-600 text-xs font-bold">R</div>
+                            </div>
+                            <span class="font-medium">12 targets available</span>
+                        </div>
+                        <span class="text-emerald-600 font-medium flex items-center gap-x-1">
+                            Start practicing →
+                        </span>
+                    </div>
+                </div>
+                
+                <!-- Exploration Card -->
+                <div onclick="navigateTo('exploration')" 
+                     class="group bg-white border border-slate-200 rounded-3xl p-8 hover:border-slate-400 cursor-pointer">
+                    <div class="flex justify-between items-start mb-8">
+                        <div>
+                            <span class="px-4 py-1 text-xs font-semibold bg-violet-100 text-violet-700 rounded-2xl">EXPLORATION</span>
+                        </div>
+                        <div class="text-6xl font-mono font-semibold text-slate-200 group-hover:text-violet-200 transition-colors">02</div>
+                    </div>
+                    <h3 class="text-3xl font-semibold mb-2">Exploration Targets</h3>
+                    <p class="text-slate-600">Advanced pool. Mundane to highly esoteric and unusual targets.</p>
+                    <div class="mt-10 flex items-center justify-between text-sm">
+                        <div class="flex items-center gap-x-4">
+                            <div class="flex -space-x-4">
+                                <div class="w-8 h-8 bg-violet-100 rounded-2xl flex items-center justify-center text-violet-600 text-xs font-bold">E</div>
+                                <div class="w-8 h-8 bg-violet-100 rounded-2xl flex items-center justify-center text-violet-600 text-xs font-bold">X</div>
+                            </div>
+                            <span class="font-medium">18 targets available</span>
+                        </div>
+                        <span class="text-violet-600 font-medium flex items-center gap-x-1">
+                            Begin exploration →
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-16 text-xs text-slate-400 font-medium flex items-center justify-center gap-x-8">
+                <div>Chronological numbering • Alphanumeric xxxx-xxxx IDs</div>
+                <div class="w-px h-3 bg-slate-300"></div>
+                <div>Simple. Functional. No distractions.</div>
+            </div>
+        </div>
+
+        <!-- PRACTICE TARGETS LIST -->
+        <div id="practice-page" class="section hidden">
+            <div class="flex items-center justify-between mb-8">
+                <div>
+                    <span class="px-4 py-1 text-xs font-semibold bg-emerald-100 text-emerald-700 rounded-2xl">PRACTICE POOL</span>
+                    <h2 class="text-4xl font-semibold tracking-tight mt-3">Practice Targets</h2>
+                </div>
+                <button onclick="navigateTo('home')" 
+                        class="px-6 py-3 text-sm font-medium border border-slate-300 hover:bg-slate-100 rounded-2xl flex items-center gap-x-2">
+                    ← Back to Home
+                </button>
+            </div>
+            
+            <div id="practice-list" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+        </div>
+
+        <!-- EXPLORATION TARGETS LIST -->
+        <div id="exploration-page" class="section hidden">
+            <div class="flex items-center justify-between mb-8">
+                <div>
+                    <span class="px-4 py-1 text-xs font-semibold bg-violet-100 text-violet-700 rounded-2xl">EXPLORATION POOL</span>
+                    <h2 class="text-4xl font-semibold tracking-tight mt-3">Exploration Targets</h2>
+                </div>
+                <button onclick="navigateTo('home')" 
+                        class="px-6 py-3 text-sm font-medium border border-slate-300 hover:bg-slate-100 rounded-2xl flex items-center gap-x-2">
+                    ← Back to Home
+                </button>
+            </div>
+            
+            <!-- Disclaimer -->
+            <div class="bg-amber-50 border border-amber-200 rounded-3xl p-6 mb-10 max-w-3xl">
+                <p class="text-amber-800 text-sm font-medium">Disclaimer: The targets in this pool range from mundane to highly esoteric and unusual. Use at your own discretion. Results may vary significantly from conventional practice targets.</p>
+            </div>
+            
+            <div id="exploration-list" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+        </div>
+
+        <!-- TARGET DETAIL PAGE -->
+        <div id="target-page" class="section hidden">
+            <div class="max-w-3xl mx-auto">
+                <div class="flex items-center justify-between mb-6">
+                    <button onclick="goBackToList()" 
+                            class="px-5 py-3 text-sm font-medium flex items-center gap-x-2 hover:bg-slate-100 rounded-2xl border border-slate-200">
+                        ← Back to list
+                    </button>
+                    
+                    <div id="target-pool-badge" class="px-4 py-1 text-xs font-semibold rounded-2xl"></div>
+                </div>
+                
+                <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-10">
+                    <div class="flex items-baseline gap-x-4">
+                        <span class="font-mono text-sm text-slate-400">TARGET</span>
+                        <h1 id="target-id" class="font-mono text-5xl font-semibold tracking-[4px]"></h1>
+                    </div>
+                    
+                    <div class="mt-12">
+                        <button onclick="toggleFeedback()" 
+                                id="feedback-button"
+                                class="w-full bg-slate-900 hover:bg-black text-white h-14 rounded-3xl text-lg font-medium flex items-center justify-center gap-x-3 transition-all">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5 16.477 5 20.268 7.943 21.542 12 20.268 16.057 16.477 19 12 19 7.523 19 3.732 16.057 2.458 12z" />
+                            </svg>
+                            VIEW FEEDBACK
+                        </button>
+                        
+                        <!-- Feedback content (hidden by default) -->
+                        <div id="feedback-container" class="hidden mt-10 pt-10 border-t border-slate-100">
+                            <div class="feedback-content">
+                                <h3 class="uppercase text-xs font-semibold text-slate-400 mb-4">Feedback</h3>
+                                
+                                <!-- Photo will be inserted here by JS -->
+                                <div id="feedback-photo" class="mb-8"></div>
+                                
+                                <!-- Cue will be inserted here by JS -->
+                                <div id="feedback-cue" class="text-slate-700 leading-relaxed text-[15px]"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center text-xs text-slate-400 mt-8 font-mono">
+                    Session complete • Target ID archived
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tailwind CDN initialization
+        function initializeTailwind() {
+            return {
+                config(userConfig = {}) {
+                    return {
+                        configUser: userConfig,
+                        theme: {
+                            extend: {},
+                        },
+                    }
+                },
+                theme: {
+                    extend: {},
+                },
+            }
+        }
+        
+        // Target database - ADD NEW TARGETS HERE
+        // Format: xxxx-xxxx (alphanumeric)
+        // To add a target: copy any object below and change the values.
+        // photo: string URL or null
+        // cue: string or null
+        // pool: "practice" or "exploration"
+        const targetsDB = [
+            // === PRACTICE TARGETS ===
+            {
+                id: "0001-AB12",
+                pool: "practice",
+                photo: "https://picsum.photos/id/1015/1200/800",
+                cue: "A wooden sailing ship on calm blue water with distant cliffs."
+            },
+            {
+                id: "0002-CD34",
+                pool: "practice",
+                photo: "https://picsum.photos/id/1005/1200/800",
+                cue: null
+            },
+            {
+                id: "0003-EF56",
+                pool: "practice",
+                photo: null,
+                cue: "The target is a red vintage telephone on a wooden desk next to an open notebook."
+            },
+            {
+                id: "0004-GH78",
+                pool: "practice",
+                photo: "https://picsum.photos/id/1016/1200/800",
+                cue: "A snow-covered mountain peak at sunrise."
+            },
+            {
+                id: "0005-IJ90",
+                pool: "practice",
+                photo: "https://picsum.photos/id/133/1200/800",
+                cue: "An old library interior with tall bookshelves and a reading lamp."
+            },
+            
+            // === EXPLORATION TARGETS ===
+            {
+                id: "1001-KL12",
+                pool: "exploration",
+                photo: "https://picsum.photos/id/201/1200/800",
+                cue: "An abandoned stone observatory overlooking a valley at twilight."
+            },
+            {
+                id: "1002-MN34",
+                pool: "exploration",
+                photo: null,
+                cue: "The target is a 19th-century brass astrolabe floating in darkness."
+            },
+            {
+                id: "1003-OP56",
+                pool: "exploration",
+                photo: "https://picsum.photos/id/1009/1200/800",
+                cue: "A dense ancient forest with glowing bioluminescent fungi."
+            },
+            {
+                id: "1004-QR78",
+                pool: "exploration",
+                photo: "https://picsum.photos/id/1003/1200/800",
+                cue: null
+            },
+            {
+                id: "1005-ST90",
+                pool: "exploration",
+                photo: "https://picsum.photos/id/1018/1200/800",
+                cue: "A crystal cave formation with underground river."
+            },
+            {
+                id: "1006-UV12",
+                pool: "exploration",
+                photo: null,
+                cue: "The target is an unknown geometric structure made of polished black stone suspended in zero gravity."
+            }
+        ]
+        
+        // Current state
+        let currentTarget = null
+        let currentPool = null
+        
+        // Render list of targets for a given pool
+        function renderTargetList(pool, containerId) {
+            const container = document.getElementById(containerId)
+            container.innerHTML = ''
+            
+            // Filter targets for this pool and sort chronologically by ID
+            const filtered = targetsDB
+                .filter(t => t.pool === pool)
+                .sort((a, b) => a.id.localeCompare(b.id))
+            
+            filtered.forEach(target => {
+                const cardHTML = `
+                <div onclick="openTarget('${target.id}', '${pool}')" 
+                     class="target-card bg-white border border-slate-200 hover:border-slate-400 rounded-3xl p-6 cursor-pointer">
+                    <div class="flex justify-between items-center mb-6">
+                        <div class="font-mono text-4xl font-semibold tracking-widest text-slate-900">${target.id}</div>
+                        <div class="text-xs px-3 py-px bg-slate-100 text-slate-500 font-medium rounded-2xl">${pool.toUpperCase()}</div>
+                    </div>
+                    <div class="text-xs text-slate-400 font-medium flex items-center gap-x-2">
+                        <span>CHRONOLOGICAL #${target.id.substring(0,4)}</span>
+                    </div>
+                </div>`
+                
+                container.innerHTML += cardHTML
+            })
+            
+            // If no targets (should never happen)
+            if (filtered.length === 0) {
+                container.innerHTML = `<p class="text-slate-400 text-center py-12">No targets in this pool yet.</p>`
+            }
+        }
+        
+        // Open a specific target detail
+        function openTarget(id, pool) {
+            currentTarget = targetsDB.find(t => t.id === id)
+            if (!currentTarget) return
+            
+            currentPool = pool
+            
+            // Hide all pages
+            document.getElementById('home-page').classList.add('hidden')
+            document.getElementById('practice-page').classList.add('hidden')
+            document.getElementById('exploration-page').classList.add('hidden')
+            
+            // Show target page
+            const targetPage = document.getElementById('target-page')
+            targetPage.classList.remove('hidden')
+            
+            // Fill in data
+            document.getElementById('target-id').textContent = currentTarget.id
+            
+            // Pool badge
+            const badge = document.getElementById('target-pool-badge')
+            if (pool === 'practice') {
+                badge.innerHTML = `<span class="bg-emerald-100 text-emerald-700 px-4 py-1 rounded-2xl text-xs font-semibold">PRACTICE POOL</span>`
+            } else {
+                badge.innerHTML = `<span class="bg-violet-100 text-violet-700 px-4 py-1 rounded-2xl text-xs font-semibold">EXPLORATION POOL</span>`
+            }
+            
+            // Reset feedback
+            document.getElementById('feedback-container').classList.add('hidden')
+            document.getElementById('feedback-button').innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5 16.477 5 20.268 7.943 21.542 12 20.268 16.057 16.477 19 12 19 7.523 19 3.732 16.057 2.458 12z" />
+                </svg>
+                VIEW FEEDBACK
+            `
+        }
+        
+        // Toggle / reveal feedback
+        function toggleFeedback() {
+            const container = document.getElementById('feedback-container')
+            const button = document.getElementById('feedback-button')
+            
+            if (container.classList.contains('hidden')) {
+                // Reveal
+                renderFeedback()
+                container.classList.remove('hidden')
+                button.innerHTML = `
+                    FEEDBACK REVEALED
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 10l7-7m0 0l7 7" />
+                    </svg>
+                `
+                button.disabled = true
+            }
+        }
+        
+        // Render the actual photo + cue inside feedback
+        function renderFeedback() {
+            const photoContainer = document.getElementById('feedback-photo')
+            const cueContainer = document.getElementById('feedback-cue')
+            
+            photoContainer.innerHTML = ''
+            cueContainer.innerHTML = ''
+            
+            // Photo
+            if (currentTarget.photo) {
+                photoContainer.innerHTML = `
+                <div class="rounded-2xl overflow-hidden border border-slate-100 shadow-inner">
+                    <img src="${currentTarget.photo}" alt="Target feedback photo" class="w-full h-auto block">
+                </div>
+                <p class="text-xs text-center text-slate-400 mt-3 font-medium">PHOTO FEEDBACK</p>`
+            }
+            
+            // Cue
+            if (currentTarget.cue) {
+                cueContainer.innerHTML = `
+                <div class="bg-slate-50 rounded-2xl p-7 border border-slate-100">
+                    <p class="text-slate-700">${currentTarget.cue}</p>
+                </div>
+                ${currentTarget.photo ? `<p class="text-xs text-center text-slate-400 mt-3 font-medium">WRITTEN CUE</p>` : ''}
+                `
+            }
+            
+            // If neither (should not happen)
+            if (!currentTarget.photo && !currentTarget.cue) {
+                cueContainer.innerHTML = `<p class="text-amber-600">No feedback available for this target.</p>`
+            }
+        }
+        
+        // Go back to the list of the current pool
+        function goBackToList() {
+            currentTarget = null
+            document.getElementById('target-page').classList.add('hidden')
+            
+            if (currentPool === 'practice') {
+                navigateTo('practice')
+            } else if (currentPool === 'exploration') {
+                navigateTo('exploration')
+            } else {
+                navigateTo('home')
+            }
+        }
+        
+        // Main navigation
+        function navigateTo(page) {
+            // Hide everything
+            document.getElementById('home-page').classList.add('hidden')
+            document.getElementById('practice-page').classList.add('hidden')
+            document.getElementById('exploration-page').classList.add('hidden')
+            document.getElementById('target-page').classList.add('hidden')
+            
+            if (page === 'home') {
+                document.getElementById('home-page').classList.remove('hidden')
+            } 
+            else if (page === 'practice') {
+                document.getElementById('practice-page').classList.remove('hidden')
+                renderTargetList('practice', 'practice-list')
+            } 
+            else if (page === 'exploration') {
+                document.getElementById('exploration-page').classList.remove('hidden')
+                renderTargetList('exploration', 'exploration-list')
+            }
+            
+            currentPool = (page === 'practice' || page === 'exploration') ? page : null
+        }
+        
+        // Initialize the entire site
+        function initializeSite() {
+            initializeTailwind()
+            
+            console.log('%c✅ Remote Viewing Targets site initialized. Targets loaded: ' + targetsDB.length, 'color:#111827;font-family:monospace;font-size:10px')
+            
+            // Render initial lists so they are ready
+            // (they will be re-rendered when page is visited)
+            console.log('Practice targets ready • Exploration targets ready')
+            
+            // Show home by default
+            document.getElementById('home-page').classList.remove('hidden')
+        }
+        
+        // Start the application
+        window.onload = initializeSite
+    </script>
+</body>
+</html>
