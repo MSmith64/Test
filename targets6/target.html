@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Target - Remote Viewing Targets</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            line-height: 1.5;
+            color: #333;
+            background-color: #fff;
+        }
+        nav {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        nav a {
+            margin: 0 15px;
+            color: #333;
+            text-decoration: none;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        h1 {
+            font-size: 2em;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        #back-link {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        #view-btn {
+            display: block;
+            margin: 30px auto;
+            padding: 15px 40px;
+            font-size: 1.4em;
+            font-weight: bold;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        #view-btn:hover {
+            background-color: #555;
+        }
+        #feedback-content {
+            margin-top: 40px;
+            padding: 20px;
+            border: 2px solid #333;
+            background-color: #f8f8f8;
+        }
+        #feedback-content h2 {
+            margin-top: 0;
+        }
+        #feedback-photo {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px 0;
+            border: 1px solid #ccc;
+        }
+        #feedback-cue {
+            font-size: 1.25em;
+            line-height: 1.6;
+            margin-top: 20px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home</a> |
+        <a href="practice.html">Practice Targets</a> |
+        <a href="exploration.html">Exploration Targets</a>
+    </nav>
+    
+    <h1>Target ID: <span id="target-id-display"></span></h1>
+    
+    <div id="back-link"></div>
+    
+    <button id="view-btn">View Feedback</button>
+    
+    <div id="feedback-content" class="hidden">
+        <h2>Feedback</h2>
+        <img id="feedback-photo" alt="Target photo">
+        <p id="feedback-cue"></p>
+    </div>
+
+    <script>
+        // Target data store - all feedback lives here
+        // Adding a new target is quick:
+        // 1. Add the ID + data object below (use null for photo or cue if not needed)
+        // 2. Add the matching link in practice.html or exploration.html
+        const targetData = {
+            "0001-P001": {
+                photo: "https://picsum.photos/id/1015/800/600",
+                cue: "A serene mountain lake reflecting surrounding peaks under a clear blue sky."
+            },
+            "0002-P002": {
+                photo: "https://picsum.photos/id/102/800/600",
+                cue: "A bustling urban street lined with yellow taxis and skyscrapers."
+            },
+            "0003-P003": {
+                photo: "https://picsum.photos/id/133/800/600",
+                cue: "A vintage red convertible parked on a quiet cobblestone street."
+            },
+            "0004-P004": {
+                photo: "https://picsum.photos/id/160/800/600",
+                cue: "A lush green forest with sunlight streaming through the canopy."
+            },
+            "0005-P005": {
+                photo: "https://picsum.photos/id/201/800/600",
+                cue: null
+            },
+            "0001-E001": {
+                photo: "https://picsum.photos/id/29/800/600",
+                cue: "An ancient stone monument standing in a misty field at twilight."
+            },
+            "0002-E002": {
+                photo: "https://picsum.photos/id/1005/800/600",
+                cue: "A mysterious ancient temple carved into a mountainside."
+            },
+            "0003-E003": {
+                photo: "https://picsum.photos/id/1016/800/600",
+                cue: "A crystal cave with glowing stalactites and an underground river."
+            },
+            "0004-E004": {
+                photo: "https://picsum.photos/id/133/800/600",
+                cue: "An ethereal aurora borealis dancing over a frozen landscape."
+            },
+            "0005-E005": {
+                photo: null,
+                cue: "A hidden library filled with ancient tomes and flickering candlelight."
+            }
+        };
+
+        window.onload = function () {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+            const pool = params.get('pool');
+
+            const idDisplay = document.getElementById('target-id-display');
+            const backLink = document.getElementById('back-link');
+            const viewBtn = document.getElementById('view-btn');
+            const feedbackContent = document.getElementById('feedback-content');
+            const photoImg = document.getElementById('feedback-photo');
+            const cueP = document.getElementById('feedback-cue');
+
+            if (!id || !targetData[id]) {
+                idDisplay.textContent = 'INVALID TARGET';
+                viewBtn.style.display = 'none';
+                return;
+            }
+
+            idDisplay.textContent = id;
+
+            // Back link
+            if (pool === 'practice') {
+                backLink.innerHTML = '<a href="practice.html">&larr; Back to Practice Targets</a>';
+            } else if (pool === 'exploration') {
+                backLink.innerHTML = '<a href="exploration.html">&larr; Back to Exploration Targets</a>';
+            } else {
+                backLink.innerHTML = '<a href="index.html">&larr; Back to Home</a>';
+            }
+
+            // View feedback handler
+            viewBtn.onclick = function () {
+                const data = targetData[id];
+                feedbackContent.classList.remove('hidden');
+                viewBtn.style.display = 'none';
+
+                // Photo
+                if (data.photo) {
+                    photoImg.src = data.photo;
+                    photoImg.style.display = 'block';
+                } else {
+                    photoImg.style.display = 'none';
+                }
+
+                // Written cue
+                if (data.cue) {
+                    cueP.textContent = data.cue;
+                    cueP.style.display = 'block';
+                } else {
+                    cueP.style.display = 'none';
+                }
+            };
+        };
+    </script>
+</body>
+</html>
